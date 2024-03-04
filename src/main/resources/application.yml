@@ -15,12 +15,7 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
     org.springframework.security: info
-server:
-  port: 8081
-  servlet:
-    encoding:
-      force: true
-  address: 0.0.0.0
+
 springdoc:
   packages-to-scan: yerong.baedug
   default-consumes-media-type: application/json

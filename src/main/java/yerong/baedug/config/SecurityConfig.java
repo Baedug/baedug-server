@@ -27,10 +27,13 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers(
                                         AntPathRequestMatcher.antMatcher("/"),
+                                        AntPathRequestMatcher.antMatcher("/health-check"),
                                         AntPathRequestMatcher.antMatcher("/api/**"),
                                         AntPathRequestMatcher.antMatcher("/swagger"),
                                         AntPathRequestMatcher.antMatcher("/swagger-ui.html"),
                                         AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
+                                        AntPathRequestMatcher.antMatcher("/swagger-ui=baedug.html"),
+                                        AntPathRequestMatcher.antMatcher("/swagger-ui-baedug/**"),
                                         AntPathRequestMatcher.antMatcher("/api-docs"),
                                         AntPathRequestMatcher.antMatcher("/api-docs/**"),
                                         AntPathRequestMatcher.antMatcher("/v3/api-docs/**")
