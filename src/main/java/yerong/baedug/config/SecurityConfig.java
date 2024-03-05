@@ -28,6 +28,7 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         AntPathRequestMatcher.antMatcher("/"),
                                         AntPathRequestMatcher.antMatcher("/health-check"),
+                                        AntPathRequestMatcher.antMatcher("/health-check/**"),
                                         AntPathRequestMatcher.antMatcher("/api/**"),
                                         AntPathRequestMatcher.antMatcher("/swagger"),
                                         AntPathRequestMatcher.antMatcher("/swagger-ui.html"),
@@ -37,9 +38,6 @@ public class SecurityConfig {
                                         AntPathRequestMatcher.antMatcher("/api-docs"),
                                         AntPathRequestMatcher.antMatcher("/api-docs/**"),
                                         AntPathRequestMatcher.antMatcher("/v3/api-docs/**")
-
-
-
                                         ).permitAll()
                                 .anyRequest().authenticated()
                 )
