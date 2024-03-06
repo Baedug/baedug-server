@@ -1,13 +1,5 @@
 
 spring:
-  cloud:
-    openfeign:
-      client:
-        config:
-          appleAuthClient:
-            connect-timeout: 3
-            read-timeout: 1
-
   session:
     store-type: jdbc
   profiles:
