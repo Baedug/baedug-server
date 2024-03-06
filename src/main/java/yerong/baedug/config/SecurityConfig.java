@@ -33,10 +33,10 @@ public class SecurityConfig {
                                         AntPathRequestMatcher.antMatcher("/swagger"),
                                         AntPathRequestMatcher.antMatcher("/swagger-ui.html"),
                                         AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
-                                        AntPathRequestMatcher.antMatcher("/swagger-ui=baedug.html"),
-                                        AntPathRequestMatcher.antMatcher("/swagger-ui-baedug/**"),
+                                        AntPathRequestMatcher.antMatcher("/swagger*/**"),
                                         AntPathRequestMatcher.antMatcher("/api-docs"),
                                         AntPathRequestMatcher.antMatcher("/api-docs/**"),
+                                        AntPathRequestMatcher.antMatcher("/v3/**"),
                                         AntPathRequestMatcher.antMatcher("/v3/api-docs/**")
                                         ).permitAll()
                                 .anyRequest().authenticated()
