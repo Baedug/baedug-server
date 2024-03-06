@@ -143,11 +143,14 @@ public class AppleService {
 
     private byte[] getPrivateKey() throws Exception {
         byte[] content = null;
-        File file = null;
-        ClassPathResource resource = new ClassPathResource(APPLE_KEY_PATH);
-        //URL res = getClass().getResource(APPLE_KEY_PATH);
-        URL res = resource.getURL();
-        if ("jar".equals(res.getProtocol())) {
+        File file = new File(APPLE_KEY_PATH);
+        URL res = getClass().getResource(APPLE_KEY_PATH);
+
+        if (res == null) {
+            // 파일 시스템에서 파일을 로드할 때
+            file = new File(APPLE_KEY_PATH);
+        } else if ("jar".equals(res.getProtocol())) {
+            // JAR 파일 내부의 리소스를 읽을 때
             try {
                 InputStream input = getClass().getResourceAsStream(APPLE_KEY_PATH);
                 file = File.createTempFile("tempfile", ".tmp");
@@ -165,8 +168,6 @@ public class AppleService {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        } else {
-            file = new File(res.getFile());
         }
 
         if (file.exists()) {
@@ -184,4 +185,5 @@ public class AppleService {
 
         return content;
     }
+
 }

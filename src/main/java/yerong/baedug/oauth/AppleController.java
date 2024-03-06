@@ -15,7 +15,7 @@ public class AppleController {
 
     private final AppleService appleService;
 
-    @RequestMapping(value = "/login/oauth2/code/apple")
+    @RequestMapping(value = "/login/oauth2/code/apple", produces = "application/json")
     public ResponseEntity<MsgEntity> callback(HttpServletRequest request) throws Exception {
         AppleDto appleInfo = appleService.getAppleInfo(request.getParameter("code"));
         log.info(appleInfo.toString());
