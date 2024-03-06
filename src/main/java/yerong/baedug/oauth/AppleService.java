@@ -15,6 +15,7 @@ import net.minidev.json.parser.JSONParser;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemReader;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -143,9 +144,9 @@ public class AppleService {
     private byte[] getPrivateKey() throws Exception {
         byte[] content = null;
         File file = null;
-
-        URL res = getClass().getResource(APPLE_KEY_PATH);
-
+        ClassPathResource resource = new ClassPathResource(APPLE_KEY_PATH);
+        //URL res = getClass().getResource(APPLE_KEY_PATH);
+        URL res = resource.getURL();
         if ("jar".equals(res.getProtocol())) {
             try {
                 InputStream input = getClass().getResourceAsStream(APPLE_KEY_PATH);
