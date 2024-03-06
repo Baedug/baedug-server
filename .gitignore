@@ -38,3 +38,4 @@ out/
 
 application-oauth.yml
 baedug.p12
+/src/main/resources/key/AuthKey_BBSF2G6H6R.p8
