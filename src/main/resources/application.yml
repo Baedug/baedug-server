@@ -1,11 +1,13 @@
+
 spring:
-  jpa:
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        format_sql: true
-        default_batch_fetch_size: 100
+  cloud:
+    openfeign:
+      client:
+        config:
+          appleAuthClient:
+            connect-timeout: 3
+            read-timeout: 1
+
   session:
     store-type: jdbc
   profiles:
@@ -30,4 +32,3 @@ springdoc:
       enabled: true
   cache:
     disabled: true
-
