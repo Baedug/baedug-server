@@ -20,7 +20,7 @@ public class AppleController {
     private final AppleService appleService;
     private final MemberService memberService;
 
-    @RequestMapping(value = "/login/oauth2/code/apple", method = RequestMethod.POST, produces = "application/json")
+    @PostMapping("/login/oauth2/code/apple")
     public ResponseEntity<MsgEntity> callback(HttpServletRequest request) throws Exception {
         AppleDto appleInfo = appleService.getAppleInfo(request.getParameter("code"));
         MemberRequestDto memberRequestDto = MemberRequestDto.builder()
@@ -28,6 +28,7 @@ public class AppleController {
                 .socialId(appleInfo.getId())
                 .username(appleInfo.getUsername())
                 .build();
+        memberService.saveMember(memberRequestDto);
         return ResponseEntity.ok()
                 .body(new MsgEntity("Success", appleInfo));
     }
