@@ -67,8 +67,8 @@ public class AppleService {
         String userId = "";
         String email  = "";
         String accessToken = "";
-        String firstName = "";
-        String lastName = "";
+        String username = ""; // 사용자 이름 변수 추가
+
 
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -110,20 +110,15 @@ public class AppleService {
                 JSONObject userObj = (JSONObject) payload.get("user");
                 if (userObj.containsKey("name")) {
                     JSONObject nameObj = (JSONObject) userObj.get("name");
+                    // firstName과 lastName이 있는 경우 해당 값을 사용하고, 없는 경우 전체 이름 사용
                     if (nameObj.containsKey("firstName") && nameObj.containsKey("lastName")) {
-                        firstName = String.valueOf(nameObj.get("firstName"));
-                        lastName = String.valueOf(nameObj.get("lastName"));
+                        String firstName = String.valueOf(nameObj.get("firstName"));
+                        String lastName = String.valueOf(nameObj.get("lastName"));
+                        username = firstName + " " + lastName;
                     } else {
-                        // 이름이 firstName과 lastName으로 나누어져 있지 않은 경우 전체 이름을 사용합니다.
                         String fullName = String.valueOf(nameObj.get("name"));
                         if (!StringUtils.isEmpty(fullName)) {
-                            String[] nameParts = fullName.split(" ");
-                            if (nameParts.length >= 2) {
-                                firstName = nameParts[0];
-                                lastName = nameParts[1];
-                            } else {
-                                firstName = fullName;
-                            }
+                            username = fullName;
                         }
                     }
                 }
