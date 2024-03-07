@@ -36,6 +36,7 @@ public class AppleController {
             MemberRequestDto memberRequestDto = MemberRequestDto.builder()
                     .email(appleInfo.getEmail())
                     .socialId(appleInfo.getId())
+                    .username(appleInfo.getUsername())
                     .build();
             memberService.saveMember(memberRequestDto);
 
