@@ -47,18 +47,18 @@ public class SecurityConfig {
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )
-                .oauth2Login(oAuth2LoginConfigurer ->
-                        oAuth2LoginConfigurer
-                                .userInfoEndpoint(userInfoEndpointConfig ->
-                                        userInfoEndpointConfig.userService(userOAuth2Service))
-                                .redirectionEndpoint(redirectionEndpointConfig ->
-                                        redirectionEndpointConfig.baseUri("/login/oauth2/code/apple"))
-                                .successHandler(customAuthenticationSuccessHandler))
-                .sessionManagement(httpSecuritySessionManagementConfigurer ->
-                        httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
-                                SessionCreationPolicy.ALWAYS
-                        ).maximumSessions(1)
-                                .maxSessionsPreventsLogin(false))
+//                .oauth2Login(oAuth2LoginConfigurer ->
+//                        oAuth2LoginConfigurer
+//                                .userInfoEndpoint(userInfoEndpointConfig ->
+//                                        userInfoEndpointConfig.userService(userOAuth2Service))
+//                                .redirectionEndpoint(redirectionEndpointConfig ->
+//                                        redirectionEndpointConfig.baseUri("/login/oauth2/code/apple"))
+//                                .successHandler(customAuthenticationSuccessHandler))
+//                .sessionManagement(httpSecuritySessionManagementConfigurer ->
+//                        httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
+//                                SessionCreationPolicy.ALWAYS
+//                        ).maximumSessions(1)
+//                                .maxSessionsPreventsLogin(false))
                 .build();
     }
 
