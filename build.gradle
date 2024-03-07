@@ -37,7 +37,6 @@ dependencies {
 	implementation 'org.bouncycastle:bcpkix-jdk18on:1.72'
 	implementation group: 'org.json', name: 'json', version: '20240303'
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-	runtimeOnly 'com.h2database:h2'
 
 	compileOnly('org.projectlombok:lombok')
 	annotationProcessor('org.projectlombok:lombok')
