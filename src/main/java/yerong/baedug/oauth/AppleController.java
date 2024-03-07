@@ -48,7 +48,7 @@ public class AppleController {
             session.setAttribute("userName", appleInfo.getUsername());
             log.info("=====Success4=====");
 
-            return ResponseEntity.ok(new MsgEntity("Success", "Apple 소셜 로그인 완료"));
+            return ResponseEntity.ok(new MsgEntity("Success", appleInfo));
 
         }catch (Exception e){
             log.error("Apple 소셜 로그인 오류: {}", e.getMessage());
