@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-@Req
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 
