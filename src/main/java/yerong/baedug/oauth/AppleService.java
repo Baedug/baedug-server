@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import javax.management.openmbean.InvalidKeyException;
@@ -66,8 +67,8 @@ public class AppleService {
         String userId = "";
         String email  = "";
         String accessToken = "";
-        String name = "";
-
+        String firstName = "";
+        String lastName = "";
 
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -102,10 +103,31 @@ public class AppleService {
             ObjectMapper objectMapper = new ObjectMapper();
             JSONObject payload = objectMapper.readValue(getPayload.toJSONObject().toJSONString(), JSONObject.class);
 
+
             userId = String.valueOf(payload.get("sub"));
             email  = String.valueOf(payload.get("email"));
-            name = String.valueOf(payload.get("name"));
-
+            if (payload.containsKey("user")) {
+                JSONObject userObj = (JSONObject) payload.get("user");
+                if (userObj.containsKey("name")) {
+                    JSONObject nameObj = (JSONObject) userObj.get("name");
+                    if (nameObj.containsKey("firstName") && nameObj.containsKey("lastName")) {
+                        firstName = String.valueOf(nameObj.get("firstName"));
+                        lastName = String.valueOf(nameObj.get("lastName"));
+                    } else {
+                        // 이름이 firstName과 lastName으로 나누어져 있지 않은 경우 전체 이름을 사용합니다.
+                        String fullName = String.valueOf(nameObj.get("name"));
+                        if (!StringUtils.isEmpty(fullName)) {
+                            String[] nameParts = fullName.split(" ");
+                            if (nameParts.length >= 2) {
+                                firstName = nameParts[0];
+                                lastName = nameParts[1];
+                            } else {
+                                firstName = fullName;
+                            }
+                        }
+                    }
+                }
+            }
         } catch (Exception e) {
             throw new Exception("API call failed");
         }
@@ -114,7 +136,7 @@ public class AppleService {
                 .id(userId)
                 .token(accessToken)
                 .email(email)
-                .username(name).build();
+                .build();
     }
 
     private String createClientSecret() throws Exception {
