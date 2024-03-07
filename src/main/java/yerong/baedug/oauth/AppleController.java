@@ -26,20 +26,20 @@ public class AppleController {
     @PostMapping("/login/oauth2/code/apple")
     public ResponseEntity<?> callback(HttpServletRequest request) throws Exception {
         try {
-            AppleDto appleInfo = appleService.getAppleInfo(request.getParameter("code"));
-            MemberResponseDto memberResponseDto = memberService.findByAppleId(appleInfo.getId());
             log.info("=====Success1=====");
-            if (memberResponseDto == null) {
-                // 신규 회원 저장
-                log.info("=====Success2=====");
 
-                MemberRequestDto memberRequestDto = MemberRequestDto.builder()
-                        .email(appleInfo.getEmail())
-                        .socialId(appleInfo.getId())
-                        .build();
-                memberService.saveMember(memberRequestDto);
+            AppleDto appleInfo = appleService.getAppleInfo(request.getParameter("code"));
 
-            }
+            // 신규 회원 저장
+            log.info("=====Success2=====");
+
+            MemberRequestDto memberRequestDto = MemberRequestDto.builder()
+                    .email(appleInfo.getEmail())
+                    .socialId(appleInfo.getId())
+                    .build();
+            memberService.saveMember(memberRequestDto);
+
+
             log.info("=====Success3=====");
 
             HttpSession session = request.getSession(true);
