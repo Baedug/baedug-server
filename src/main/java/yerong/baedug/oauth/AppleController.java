@@ -1,14 +1,17 @@
 package yerong.baedug.oauth;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import yerong.baedug.dto.request.MemberRequestDto;
+import yerong.baedug.dto.response.MemberResponseDto;
 import yerong.baedug.service.MemberService;
 import yerong.baedug.service.impl.MemberServiceImpl;
 
@@ -21,15 +24,30 @@ public class AppleController {
     private final MemberService memberService;
 
     @PostMapping("/login/oauth2/code/apple")
-    public ResponseEntity<MsgEntity> callback(HttpServletRequest request) throws Exception {
-        AppleDto appleInfo = appleService.getAppleInfo(request.getParameter("code"));
-        MemberRequestDto memberRequestDto = MemberRequestDto.builder()
-                .email(appleInfo.getEmail())
-                .socialId(appleInfo.getId())
-                .username(appleInfo.getUsername())
-                .build();
-        memberService.saveMember(memberRequestDto);
-        return ResponseEntity.ok()
-                .body(new MsgEntity("Success", appleInfo));
+    public ResponseEntity<?> callback(HttpServletRequest request) throws Exception {
+        try {
+            AppleDto appleInfo = appleService.getAppleInfo(request.getParameter("code"));
+            MemberResponseDto memberResponseDto = memberService.findByAppleId(appleInfo.getId());
+            if (memberResponseDto == null) {
+                // 신규 회원 저장
+                MemberRequestDto memberRequestDto = MemberRequestDto.builder()
+                        .email(appleInfo.getEmail())
+                        .username(appleInfo.getUsername())
+                        .socialId(appleInfo.getId())
+                        .build();
+                memberService.saveMember(memberRequestDto);
+
+            }
+            HttpSession session = request.getSession(true);
+            session.setAttribute("userEmail", appleInfo.getEmail());
+            session.setAttribute("userName", appleInfo.getUsername());
+            return ResponseEntity.ok(new MsgEntity("Success", "Apple 소셜 로그인 완료"));
+
+        }catch (Exception e){
+            log.error("Apple 소셜 로그인 오류: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new MsgEntity("Error", "Apple 소셜 로그인 오류"));
+        }
+
     }
 }
