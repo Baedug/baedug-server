@@ -12,11 +12,14 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResp
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import yerong.baedug.oauth.UserOAuth2Service;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
+    private final UserOAuth2Service userOAuth2Service;
+
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception{
 
@@ -44,6 +47,10 @@ public class SecurityConfig {
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )
+                .oauth2Login(oAuth2LoginConfigurer ->
+                        oAuth2LoginConfigurer
+                                .userInfoEndpoint(userInfoEndpointConfig ->
+                                        userInfoEndpointConfig.userService(userOAuth2Service)))
                 .build();
     }
 

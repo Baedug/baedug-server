@@ -10,5 +10,5 @@ public class AppleDto {
     private String id;
     private String token;
     private String email;
-
+    private String username;
 }

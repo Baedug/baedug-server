@@ -67,6 +67,7 @@ public class AppleService {
         String userId = "";
         String email  = "";
         String accessToken = "";
+        String name = "";
 
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -103,6 +104,7 @@ public class AppleService {
 
             userId = String.valueOf(payload.get("sub"));
             email  = String.valueOf(payload.get("email"));
+            name = String.valueOf(payload.get("name"));
         } catch (Exception e) {
             throw new Exception("API call failed");
         }
@@ -110,7 +112,8 @@ public class AppleService {
         return AppleDto.builder()
                 .id(userId)
                 .token(accessToken)
-                .email(email).build();
+                .email(email)
+                .username(name).build();
     }
 
     private String createClientSecret() throws Exception {

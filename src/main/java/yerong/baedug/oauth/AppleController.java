@@ -7,6 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import yerong.baedug.dto.request.MemberRequestDto;
+import yerong.baedug.service.MemberService;
+import yerong.baedug.service.impl.MemberServiceImpl;
 
 @RestController
 @RequiredArgsConstructor
@@ -14,11 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class AppleController {
 
     private final AppleService appleService;
+    private final MemberService memberService;
 
     @RequestMapping(value = "/login/oauth2/code/apple", produces = "application/json")
     public ResponseEntity<MsgEntity> callback(HttpServletRequest request) throws Exception {
         AppleDto appleInfo = appleService.getAppleInfo(request.getParameter("code"));
-        log.info(appleInfo.toString());
+        MemberRequestDto memberRequestDto = MemberRequestDto.builder()
+                .email(appleInfo.getEmail())
+                .socialId(appleInfo.getId())
+                .username(appleInfo.getUsername())
+                .build();
         return ResponseEntity.ok()
                 .body(new MsgEntity("Success", appleInfo));
     }
