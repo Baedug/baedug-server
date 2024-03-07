@@ -10,6 +10,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.ReadOnlyJWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import org.bouncycastle.util.io.pem.PemObject;
@@ -35,6 +36,7 @@ import java.util.Date;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class AppleService {
 
     @Value("${social-login.provider.apple.team-id}")
@@ -103,7 +105,7 @@ public class AppleService {
             ObjectMapper objectMapper = new ObjectMapper();
             JSONObject payload = objectMapper.readValue(getPayload.toJSONObject().toJSONString(), JSONObject.class);
 
-
+            log.info("===" + payload.toString());
             userId = String.valueOf(payload.get("sub"));
             email  = String.valueOf(payload.get("email"));
             if (payload.containsKey("user")) {
