@@ -14,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@Builder
 public class Member extends BaseTimeEntity {
 
     @Id
@@ -52,5 +51,13 @@ public class Member extends BaseTimeEntity {
         this.username = username;
     }
 
+    @Builder
+    public Member(Role role, String username, SocialProvider socialProvider, String socialId, String email) {
+        this.role = role;
+        this.username = username;
+        this.socialProvider = socialProvider;
+        this.socialId = socialId;
+        this.email = email;
+    }
 
 }
