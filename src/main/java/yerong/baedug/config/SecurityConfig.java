@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import yerong.baedug.oauth.CustomAuthenticationSuccessHandler;
 import yerong.baedug.oauth.UserOAuth2Service;
 
 @EnableWebSecurity
@@ -17,6 +18,7 @@ import yerong.baedug.oauth.UserOAuth2Service;
 @Configuration
 public class SecurityConfig {
     private final UserOAuth2Service userOAuth2Service;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception{
@@ -51,9 +53,7 @@ public class SecurityConfig {
                                         userInfoEndpointConfig.userService(userOAuth2Service))
                                 .redirectionEndpoint(redirectionEndpointConfig ->
                                         redirectionEndpointConfig.baseUri("/login/oauth2/code/apple"))
-                                .failureHandler(((request, response, exception) -> {
-                                    response.sendRedirect("/login?error=true");
-                                })))
+                                .successHandler(customAuthenticationSuccessHandler))
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
                         httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
                                 SessionCreationPolicy.ALWAYS
