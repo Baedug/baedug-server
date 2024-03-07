@@ -2,20 +2,26 @@ package yerong.baedug.oauth;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Getter
-@RequiredArgsConstructor
-@Builder
+@NoArgsConstructor
 public class OAuthAttributes {
 
     private String id;
     private String token;
     private String email;
 
+    @Builder
+    public OAuthAttributes(String id, String token, String email, String name) {
+        this.id = id;
+        this.token = token;
+        this.email = email;
+    }
     public static OAuthAttributes of(String registrationId, Map<String, Object> attributes) {
         if (registrationId.contains("apple")) {
             return ofApple(attributes);
