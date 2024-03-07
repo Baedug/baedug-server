@@ -28,8 +28,11 @@ public class AppleController {
         try {
             AppleDto appleInfo = appleService.getAppleInfo(request.getParameter("code"));
             MemberResponseDto memberResponseDto = memberService.findByAppleId(appleInfo.getId());
+            log.info("=====Success1=====");
             if (memberResponseDto == null) {
                 // 신규 회원 저장
+                log.info("=====Success2=====");
+
                 MemberRequestDto memberRequestDto = MemberRequestDto.builder()
                         .email(appleInfo.getEmail())
                         .username(appleInfo.getUsername())
@@ -38,9 +41,13 @@ public class AppleController {
                 memberService.saveMember(memberRequestDto);
 
             }
+            log.info("=====Success3=====");
+
             HttpSession session = request.getSession(true);
             session.setAttribute("userEmail", appleInfo.getEmail());
             session.setAttribute("userName", appleInfo.getUsername());
+            log.info("=====Success4=====");
+
             return ResponseEntity.ok(new MsgEntity("Success", "Apple 소셜 로그인 완료"));
 
         }catch (Exception e){

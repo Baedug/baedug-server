@@ -50,7 +50,10 @@ public class SecurityConfig {
                                 .userInfoEndpoint(userInfoEndpointConfig ->
                                         userInfoEndpointConfig.userService(userOAuth2Service))
                                 .redirectionEndpoint(redirectionEndpointConfig ->
-                                        redirectionEndpointConfig.baseUri("/login/oauth2/code/apple")))
+                                        redirectionEndpointConfig.baseUri("/login/oauth2/code/apple"))
+                                .failureHandler(((request, response, exception) -> {
+                                    response.sendRedirect("/login?error=true");
+                                })))
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
                         httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
                                 SessionCreationPolicy.ALWAYS
