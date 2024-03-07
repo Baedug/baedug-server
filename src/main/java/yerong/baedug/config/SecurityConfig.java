@@ -7,9 +7,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
-import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
-import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
-import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import yerong.baedug.oauth.UserOAuth2Service;
@@ -50,7 +47,9 @@ public class SecurityConfig {
                 .oauth2Login(oAuth2LoginConfigurer ->
                         oAuth2LoginConfigurer
                                 .userInfoEndpoint(userInfoEndpointConfig ->
-                                        userInfoEndpointConfig.userService(userOAuth2Service)))
+                                        userInfoEndpointConfig.userService(userOAuth2Service))
+                                .redirectionEndpoint(redirectionEndpointConfig ->
+                                        redirectionEndpointConfig.baseUri("/login/oauth2/code/apple")))
                 .build();
     }
 
