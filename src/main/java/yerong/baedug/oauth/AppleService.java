@@ -69,7 +69,6 @@ public class AppleService {
         String userId = "";
         String email  = "";
         String accessToken = "";
-        String username = ""; // 사용자 이름 변수 추가
 
 
         try {
@@ -108,23 +107,6 @@ public class AppleService {
             log.info("===" + payload.toString());
             userId = String.valueOf(payload.get("sub"));
             email  = String.valueOf(payload.get("email"));
-            if (payload.containsKey("user")) {
-                JSONObject userObj = (JSONObject) payload.get("user");
-                if (userObj.containsKey("name")) {
-                    JSONObject nameObj = (JSONObject) userObj.get("name");
-                    // firstName과 lastName이 있는 경우 해당 값을 사용하고, 없는 경우 전체 이름 사용
-                    if (nameObj.containsKey("firstName") && nameObj.containsKey("lastName")) {
-                        String firstName = String.valueOf(nameObj.get("firstName"));
-                        String lastName = String.valueOf(nameObj.get("lastName"));
-                        username = firstName + " " + lastName;
-                    } else {
-                        String fullName = String.valueOf(nameObj.get("name"));
-                        if (!StringUtils.isEmpty(fullName)) {
-                            username = fullName;
-                        }
-                    }
-                }
-            }
         } catch (Exception e) {
             throw new Exception("API call failed");
         }
