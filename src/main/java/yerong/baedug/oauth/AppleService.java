@@ -104,7 +104,7 @@ public class AppleService {
 
             userId = String.valueOf(payload.get("sub"));
             email  = String.valueOf(payload.get("email"));
-            name = String.valueOf(payload.get("name").toString());
+            name = String.valueOf(payload.get("name"));
 
         } catch (Exception e) {
             throw new Exception("API call failed");
