@@ -34,6 +34,7 @@ public class AppleController {
             log.info("=====Success2=====");
 
             MemberRequestDto memberRequestDto = MemberRequestDto.builder()
+                    .username(appleInfo.getUsername())
                     .email(appleInfo.getEmail())
                     .socialId(appleInfo.getId())
                     .build();
@@ -44,7 +45,7 @@ public class AppleController {
 
             HttpSession session = request.getSession(true);
             session.setAttribute("userEmail", appleInfo.getEmail());
-        //    session.setAttribute("userName", appleInfo.getUsername());
+            session.setAttribute("userName", appleInfo.getUsername());
             log.info("=====Success4=====");
 
             return ResponseEntity.ok(new MsgEntity("Success", "Apple 소셜 로그인 완료"));
