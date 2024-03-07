@@ -17,10 +17,11 @@ public class OAuthAttributes {
     private String email;
 
     @Builder
-    public OAuthAttributes(String id, String token, String email, String name) {
+    public OAuthAttributes(String id, String token, String email) {
         this.id = id;
         this.token = token;
         this.email = email;
+
     }
     public static OAuthAttributes of(String registrationId, Map<String, Object> attributes) {
         if (registrationId.contains("apple")) {

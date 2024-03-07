@@ -27,13 +27,19 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void saveMember(MemberRequestDto memberRequsetDto){
+    public void saveMember(MemberRequestDto memberRequestDto){
+        if (memberRepository.findByEmail(memberRequestDto.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("이미 가입된 이메일 주소입니다.");
+        }
+
+        // 회원 정보 저장
         Member member = Member.builder()
-                        .email(memberRequsetDto.getEmail())
-                                .username(memberRequsetDto.getUsername())
-                                        .role(Role.USER)
-                                                .socialProvider(SocialProvider.APPLE)
-                                                        .build();
+                .email(memberRequestDto.getEmail())
+                .username(memberRequestDto.getUsername())
+                .role(Role.USER)
+                .socialProvider(SocialProvider.APPLE)
+                .socialId(memberRequestDto.getSocialId())
+                .build();
         memberRepository.save(member);
     }
 }

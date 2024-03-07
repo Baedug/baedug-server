@@ -15,7 +15,6 @@ import net.minidev.json.parser.JSONParser;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemReader;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -43,13 +42,13 @@ public class AppleService {
     @Value("${social-login.provider.apple.key-id}")
     private String APPLE_LOGIN_KEY;
 
-    @Value("${social-login.provider.apple.client-id}")
+    @Value("${spring.security.oauth2.client.registration.apple.clientId}")
     private String APPLE_CLIENT_ID;
 
-    @Value("${social-login.provider.apple.redirect-url}")
+    @Value("${spring.security.oauth2.client.registration.apple.redirect-uri}")
     private String APPLE_REDIRECT_URL;
 
-    @Value("${social-login.provider.apple.private-key}")
+    @Value("${spring.security.oauth2.client.registration.apple.clientSecret}")
     private String APPLE_KEY_PATH;
 
     private final static String APPLE_AUTH_URL = "https://appleid.apple.com";
