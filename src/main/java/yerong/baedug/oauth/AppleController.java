@@ -28,7 +28,7 @@ public class AppleController {
         try {
             log.info("=====Success1=====");
 
-            AppleDto appleInfo = appleService.getAppleInfo(request.getParameter("code"));
+            AppleDto appleInfo = appleService.getAppleInfo(request.getParameter("code"), request.getParameter("user"));
             log.info(request.getParameter("user"));
             // 신규 회원 저장
             log.info("=====Success2=====");

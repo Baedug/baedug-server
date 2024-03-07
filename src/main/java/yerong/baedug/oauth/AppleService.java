@@ -62,13 +62,14 @@ public class AppleService {
                 + "&redirect_uri=" + APPLE_REDIRECT_URL
                 + "&response_type=code%20id_token&scope=name%20email&response_mode=form_post";
     }
-    public AppleDto getAppleInfo(String code) throws Exception {
+    public AppleDto getAppleInfo(String code, String user) throws Exception {
         if (code == null) throw new Exception("Failed get authorization code");
 
         String clientSecret = createClientSecret();
         String userId = "";
         String email  = "";
         String accessToken = "";
+        String username="";
 
 
         try {
@@ -107,6 +108,11 @@ public class AppleService {
             log.info("===" + payload.toString());
             userId = String.valueOf(payload.get("sub"));
             email  = String.valueOf(payload.get("email"));
+
+            if (!StringUtils.isEmpty(user)) {
+                username = extractUsername(user);
+            }
+
         } catch (Exception e) {
             throw new Exception("API call failed");
         }
@@ -115,6 +121,7 @@ public class AppleService {
                 .id(userId)
                 .token(accessToken)
                 .email(email)
+                .username(username)
                 .build();
     }
 
@@ -190,5 +197,13 @@ public class AppleService {
 
         return content;
     }
+    private String extractUsername(String userJsonString) throws Exception {
+        JSONObject userJson = (JSONObject) new JSONParser().parse(userJsonString);
+        JSONObject nameObject = (JSONObject) userJson.get("name");
 
+        String firstName = (String) nameObject.get("firstName");
+        String lastName = (String) nameObject.get("lastName");
+
+        return firstName + lastName;
+    }
 }
