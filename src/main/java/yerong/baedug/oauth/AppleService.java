@@ -45,7 +45,7 @@ public class AppleService {
     @Value("${spring.security.oauth2.client.registration.apple.clientId}")
     private String APPLE_CLIENT_ID;
 
-    @Value("${spring.security.oauth2.client.registration.apple.redirect-uri}")
+    @Value("${social-login.provider.apple.redirect-uri}")
     private String APPLE_REDIRECT_URL;
 
     @Value("${spring.security.oauth2.client.registration.apple.clientSecret}")
