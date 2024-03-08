@@ -93,12 +93,15 @@ public class AppleService {
             HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(params, headers);
             log.info("httpEntity===" + httpEntity);
             log.info("SUCCESS ==== 4");
+            log.info("url == " + APPLE_AUTH_URL + "/auth/token");
+            log.info("==" + HttpMethod.POST);
             ResponseEntity<String> response = restTemplate.exchange(
                     APPLE_AUTH_URL + "/auth/token",
                     HttpMethod.POST,
                     httpEntity,
                     String.class
             );
+            System.out.println("Apple 서버로부터 받은 응답: " + response.getBody());
             log.info("SUCCESS ==== 5");
 
             JSONParser jsonParser = new JSONParser();
