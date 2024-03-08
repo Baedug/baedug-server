@@ -23,12 +23,12 @@ public class AppleController {
     private final MemberService memberService;
 
     @PostMapping("/oauth2/code/apple")
-    public ResponseEntity<?> callback(HttpServletRequest request) throws Exception {
+    public ResponseEntity<?> callback(@RequestParam("code") String code) throws Exception {
         try {
             log.info("=====Success1=====");
 
-            AppleDto appleInfo = appleService.getAppleInfo(request.getParameter("code"));
-            log.info(request.getParameter("authorizationCode"));
+            AppleDto appleInfo = appleService.getAppleInfo(code);
+            log.info(code);
             // 신규 회원 저장
             log.info("=====Success2=====");
 
@@ -42,8 +42,8 @@ public class AppleController {
 
             log.info("=====Success3=====");
 
-            HttpSession session = request.getSession(true);
-            session.setAttribute("userEmail", appleInfo.getEmail());
+//            HttpSession session = request.getSession(true);
+//            session.setAttribute("userEmail", appleInfo.getEmail());
            // session.setAttribute("userName", appleInfo.getUsername());
             log.info("=====Success4=====");
 
