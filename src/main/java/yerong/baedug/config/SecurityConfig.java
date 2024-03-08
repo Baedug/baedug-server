@@ -7,17 +7,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import yerong.baedug.oauth.CustomAuthenticationSuccessHandler;
-import yerong.baedug.oauth.UserOAuth2Service;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
-    private final UserOAuth2Service userOAuth2Service;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Bean
