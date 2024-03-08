@@ -8,7 +8,7 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
-    org.springframework.security: info
+    org.springframework.security: debug
     root: debug
 
 springdoc:
