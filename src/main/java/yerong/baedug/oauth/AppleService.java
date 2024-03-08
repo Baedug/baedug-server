@@ -124,7 +124,7 @@ public class AppleService {
             email  = String.valueOf(payload.get("email"));
 
         } catch (Exception e) {
-            throw new Exception("API call failed");
+            throw new Exception("API call failed", e);
         }
 
         return AppleDto.builder()
