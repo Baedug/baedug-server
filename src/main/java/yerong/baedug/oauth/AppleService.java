@@ -63,7 +63,6 @@ public class AppleService {
                 + "&response_type=code%20id_token&scope=name%20email&response_mode=form_post";
     }
     public AppleDto getAppleInfo(String code) throws Exception {
-        log.info("authorization_code = " + code);
         if (code == null) throw new Exception("Failed get authorization code");
 
         String clientSecret = createClientSecret();
@@ -73,8 +72,11 @@ public class AppleService {
 
 
         try {
+            log.info("SUCCESS ==== 1");
+
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-type", "application/x-www-form-urlencoded");
+            log.info("SUCCESS ==== 2");
 
             MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
             params.add("grant_type"   , "authorization_code");
@@ -82,34 +84,39 @@ public class AppleService {
             params.add("client_secret", clientSecret);
             params.add("code"         , code);
             params.add("redirect_uri" , APPLE_REDIRECT_URL);
+            log.info("SUCCESS ==== 3");
 
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(params, headers);
 
+            log.info("SUCCESS ==== 4");
             ResponseEntity<String> response = restTemplate.exchange(
                     APPLE_AUTH_URL + "/auth/token",
                     HttpMethod.POST,
                     httpEntity,
                     String.class
             );
+            log.info("SUCCESS ==== 5");
 
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObj = (JSONObject) jsonParser.parse(response.getBody());
+            log.info("SUCCESS ==== 6");
 
             accessToken = String.valueOf(jsonObj.get("access_token"));
 
             //ID TOKEN을 통해 회원 고유 식별자 받기
             SignedJWT signedJWT = SignedJWT.parse(String.valueOf(jsonObj.get("id_token")));
             ReadOnlyJWTClaimsSet getPayload = signedJWT.getJWTClaimsSet();
+            log.info("SUCCESS ==== 7");
 
             ObjectMapper objectMapper = new ObjectMapper();
             JSONObject payload = objectMapper.readValue(getPayload.toJSONObject().toJSONString(), JSONObject.class);
+            log.info("SUCCESS ==== 8");
 
             log.info("===" + payload.toString());
             userId = String.valueOf(payload.get("sub"));
             email  = String.valueOf(payload.get("email"));
 
-//
         } catch (Exception e) {
             throw new Exception("API call failed");
         }
