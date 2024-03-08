@@ -9,7 +9,6 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
     org.springframework.security: debug
-    root: debug
 
 springdoc:
   packages-to-scan: yerong.baedug
