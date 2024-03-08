@@ -63,6 +63,7 @@ public class AppleService {
                 + "&response_type=code%20id_token&scope=name%20email&response_mode=form_post";
     }
     public AppleDto getAppleInfo(String code) throws Exception {
+        log.info("authorization_code = " + code);
         if (code == null) throw new Exception("Failed get authorization code");
 
         String clientSecret = createClientSecret();
@@ -193,13 +194,5 @@ public class AppleService {
 
         return content;
     }
-    private String extractUsername(String userJsonString) throws Exception {
-        JSONObject userJson = (JSONObject) new JSONParser().parse(userJsonString);
-        JSONObject nameObject = (JSONObject) userJson.get("name");
 
-        String firstName = (String) nameObject.get("firstName");
-        String lastName = (String) nameObject.get("lastName");
-
-        return  lastName+firstName;
-    }
 }
