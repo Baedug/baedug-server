@@ -76,6 +76,8 @@ public class AppleService {
 
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-type", "application/x-www-form-urlencoded");
+            log.info("headers ===" + headers);
+
             log.info("SUCCESS ==== 2");
 
             MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
@@ -84,11 +86,12 @@ public class AppleService {
             params.add("client_secret", clientSecret);
             params.add("code"         , code);
             params.add("redirect_uri" , APPLE_REDIRECT_URL);
+            log.info("params ===" + params);
             log.info("SUCCESS ==== 3");
 
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(params, headers);
-
+            log.info("httpEntity===" + httpEntity);
             log.info("SUCCESS ==== 4");
             ResponseEntity<String> response = restTemplate.exchange(
                     APPLE_AUTH_URL + "/auth/token",
