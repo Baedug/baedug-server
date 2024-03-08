@@ -26,16 +26,15 @@ public class AppleController {
         try {
             log.info("=====Success1=====");
 
-            AppleDto appleInfo = appleService.getAppleInfo(request.getParameter("code"), request.getParameter("user"));
+            AppleDto appleInfo = appleService.getAppleInfo(request.getParameter("code"));
             log.info(request.getParameter("code"));
-            log.info(request.getParameter("user"));
             // 신규 회원 저장
             log.info("=====Success2=====");
 
             MemberRequestDto memberRequestDto = MemberRequestDto.builder()
                     .email(appleInfo.getEmail())
                     .socialId(appleInfo.getId())
-                    .username(appleInfo.getUsername())
+             //       .username(appleInfo.getUsername())
                     .build();
             memberService.saveMember(memberRequestDto);
 

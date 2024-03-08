@@ -12,6 +12,5 @@ import lombok.Setter;
 public class MemberResponseDto {
 
     private String email;
-    private String username;
-
+ //   private String username;
 }

@@ -22,7 +22,6 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findBySocialId(appleId).orElseThrow();
         if(member !=null){
             return MemberResponseDto.builder()
-                    .username(member.getUsername())
                     .email(member.getEmail()).build();
         }
         else {
@@ -37,20 +36,18 @@ public class MemberServiceImpl implements MemberService {
         if (findMember == null) {
             Member member = Member.builder()
                     .email(memberRequestDto.getEmail())
-                    .username(memberRequestDto.getUsername())
+                    //.username(memberRequestDto.getUsername())
                     .role(Role.USER)
                     .socialProvider(SocialProvider.APPLE)
                     .socialId(memberRequestDto.getSocialId())
                     .build();
             memberRepository.save(member);
             return MemberResponseDto.builder()
-                    .username(member.getUsername())
                     .email(member.getEmail()).build();
 
         }
         else {
             return MemberResponseDto.builder()
-                    .username(findMember.getUsername())
                     .email(findMember.getEmail()).build();
         }
 
