@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import yerong.baedug.dto.request.CodeDto;
 import yerong.baedug.dto.request.MemberRequestDto;
 import yerong.baedug.dto.response.MemberResponseDto;
 import yerong.baedug.service.MemberService;
@@ -22,11 +23,11 @@ public class AppleController {
     private final MemberService memberService;
 
     @PostMapping("/oauth2/code/apple")
-    public ResponseEntity<?> callback(@RequestBody String authorizationCode, HttpServletRequest request) throws Exception {
+    public ResponseEntity<?> callback(@RequestBody CodeDto authorizationCode, HttpServletRequest request) throws Exception {
         try {
             log.info("=====Success1=====");
 
-            AppleDto appleInfo = appleService.getAppleInfo(authorizationCode);
+            AppleDto appleInfo = appleService.getAppleInfo(authorizationCode.getAuthorizationCode());
             log.info(request.getParameter("authorizationCode"));
             // 신규 회원 저장
             log.info("=====Success2=====");
