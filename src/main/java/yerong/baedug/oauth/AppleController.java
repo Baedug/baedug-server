@@ -23,10 +23,11 @@ public class AppleController {
     private final MemberService memberService;
 
     @PostMapping("/oauth2/code/apple")
-    public ResponseEntity<?> callback(@RequestParam String code, HttpServletRequest request) throws Exception {
+    public ResponseEntity<?> callback(HttpServletRequest request) throws Exception {
         try {
             log.info("=====Success1=====");
 
+            String code = request.getParameter("code");
             log.info(code);
             AppleDto appleInfo = appleService.getAppleInfo(code);
             log.info(request.getParameter("authorizationCode"));
