@@ -23,11 +23,11 @@ public class AppleController {
     private final MemberService memberService;
 
     @PostMapping("/oauth2/code/apple")
-    public ResponseEntity<?> callback(@RequestBody CodeDto authorizationCode, HttpServletRequest request) throws Exception {
+    public ResponseEntity<?> callback(@RequestParam String authorizationCode, HttpServletRequest request) throws Exception {
         try {
             log.info("=====Success1=====");
 
-            AppleDto appleInfo = appleService.getAppleInfo(authorizationCode.getAuthorizationCode());
+            AppleDto appleInfo = appleService.getAppleInfo(authorizationCode);
             log.info(request.getParameter("authorizationCode"));
             // 신규 회원 저장
             log.info("=====Success2=====");
