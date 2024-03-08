@@ -5,12 +5,12 @@ import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MsgEntity {
+public class CustomEntity {
 
     private String id;
     private Object result;
 
-    public MsgEntity(String id, Object result) {
+    public CustomEntity(String id, Object result) {
         this.id = id;
         this.result  = result;
     }
