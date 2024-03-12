@@ -32,11 +32,11 @@ public class AppleController {
 //                PrincipalDetails userDetails = (PrincipalDetails) principal;
 //                userDetails.getMember()
 //            }
-            MemberRequestDto memberRequestDto = MemberRequestDto.builder()
-                    .email(appleInfo.getEmail())
-                    .socialId(appleInfo.getId())
-                    .build();
-            MemberResponseDto memberResponseDto = memberService.saveMember(memberRequestDto);
+//            MemberRequestDto memberRequestDto = MemberRequestDto.builder()
+//                    .email(appleInfo.getEmail())
+//                    .socialId(appleInfo.getId())
+//                    .build();
+//            memberService.saveMember(memberRequestDto)
             return ResponseEntity.ok(new CustomEntity("Success", appleInfo));
 
         }catch (Exception e){
