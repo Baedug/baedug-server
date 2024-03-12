@@ -4,8 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
+import yerong.baedug.domain.member.Member;
 import yerong.baedug.dto.request.MemberRequestDto;
+import yerong.baedug.dto.response.MemberResponseDto;
 import yerong.baedug.service.MemberService;
 
 @RestController
@@ -16,19 +21,14 @@ public class AppleController {
 
     private final AppleService appleService;
     private final MemberService memberService;
+    private final OAuth2DetailsService oAuth2DetailsService;
 
     @PostMapping("/oauth2/code/apple")
     public ResponseEntity<?> callback(@RequestParam("code") String code) throws Exception {
         try {
-
             AppleDto appleInfo = appleService.getAppleInfo(code);
-            // 신규 회원 저장
 
-            MemberRequestDto memberRequestDto = MemberRequestDto.builder()
-                    .email(appleInfo.getEmail())
-                    .socialId(appleInfo.getId())
-                    .build();
-            memberService.saveMember(memberRequestDto);
+            PrincipalDetails userDetails = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
             return ResponseEntity.ok(new CustomEntity("Success", appleInfo));
 
