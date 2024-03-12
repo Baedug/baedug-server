@@ -30,4 +30,10 @@ public class Directory extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "directory")
     private List<Note> notes = new ArrayList<>();
+
+    @Builder
+    public Directory (String name, Member member){
+        this.name = name;
+        this.member = member;
+    }
 }
