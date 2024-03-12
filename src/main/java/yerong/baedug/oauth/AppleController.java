@@ -16,14 +16,13 @@ import yerong.baedug.service.MemberService;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/login")
 public class AppleController {
 
     private final AppleService appleService;
     private final MemberService memberService;
-    private final OAuth2DetailsService oAuth2DetailsService;
+   // private final OAuth2DetailsService oAuth2DetailsService;
 
-    @PostMapping("/oauth2/code/apple")
+    @PostMapping("/login/oauth2/code/apple")
     public ResponseEntity<?> callback(@RequestParam("code") String code) throws Exception {
         try {
             AppleDto appleInfo = appleService.getAppleInfo(code);
@@ -33,6 +32,11 @@ public class AppleController {
 //                PrincipalDetails userDetails = (PrincipalDetails) principal;
 //                userDetails.getMember()
 //            }
+            MemberRequestDto memberRequestDto = MemberRequestDto.builder()
+                    .email(appleInfo.getEmail())
+                    .socialId(appleInfo.getId())
+                    .build();
+            MemberResponseDto memberResponseDto = memberService.saveMember(memberRequestDto);
             return ResponseEntity.ok(new CustomEntity("Success", appleInfo));
 
         }catch (Exception e){
@@ -42,7 +46,7 @@ public class AppleController {
         }
 
     }
-    @PostMapping("/token")
+    @PostMapping("/login/token")
     public ResponseEntity<?> loginWithToken(@RequestHeader("Authorization") String token) {
         try {
             // 토큰을 검증하고 로그인 처리 수행

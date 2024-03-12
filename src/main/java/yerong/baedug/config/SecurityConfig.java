@@ -10,14 +10,13 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import yerong.baedug.oauth.CustomAuthenticationSuccessHandler;
-import yerong.baedug.oauth.OAuth2DetailsService;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-    private final OAuth2DetailsService oAuth2DetailsService;
+    //private final OAuth2DetailsService oAuth2DetailsService;
 
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception{
@@ -47,9 +46,9 @@ public class SecurityConfig {
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )
-                .oauth2Login(oAuth -> oAuth
-                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
-                                .userService(oAuth2DetailsService)))
+//                .oauth2Login(oAuth -> oAuth
+//                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
+//                                .userService(oAuth2DetailsService)))
                 .build();
     }
 
