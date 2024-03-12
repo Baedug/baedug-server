@@ -40,6 +40,7 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService {
                     .email(email)
                     .socialProvider(SocialProvider.APPLE)
                     .role(Role.USER)
+
                     .socialId(socialId)
                     .build();
             return new PrincipalDetails(memberRepository.save(member), userInfo);

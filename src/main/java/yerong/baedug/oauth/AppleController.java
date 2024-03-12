@@ -28,8 +28,11 @@ public class AppleController {
         try {
             AppleDto appleInfo = appleService.getAppleInfo(code);
 
-            PrincipalDetails userDetails = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
+//            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//            if (principal instanceof PrincipalDetails) {
+//                PrincipalDetails userDetails = (PrincipalDetails) principal;
+//                userDetails.getMember()
+//            }
             return ResponseEntity.ok(new CustomEntity("Success", appleInfo));
 
         }catch (Exception e){

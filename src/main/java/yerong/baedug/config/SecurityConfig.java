@@ -10,12 +10,14 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import yerong.baedug.oauth.CustomAuthenticationSuccessHandler;
+import yerong.baedug.oauth.OAuth2DetailsService;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+    private final OAuth2DetailsService oAuth2DetailsService;
 
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception{
@@ -45,18 +47,9 @@ public class SecurityConfig {
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )
-//                .oauth2Login(oAuth2LoginConfigurer ->
-//                        oAuth2LoginConfigurer
-//                                .userInfoEndpoint(userInfoEndpointConfig ->
-//                                        userInfoEndpointConfig.userService(userOAuth2Service))
-//                                .redirectionEndpoint(redirectionEndpointConfig ->
-//                                        redirectionEndpointConfig.baseUri("/login/oauth2/code/apple"))
-//                                .successHandler(customAuthenticationSuccessHandler))
-//                .sessionManagement(httpSecuritySessionManagementConfigurer ->
-//                        httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
-//                                SessionCreationPolicy.ALWAYS
-//                        ).maximumSessions(1)
-//                                .maxSessionsPreventsLogin(false))
+                .oauth2Login(oAuth -> oAuth
+                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
+                                .userService(oAuth2DetailsService)))
                 .build();
     }
 
