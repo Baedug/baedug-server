@@ -36,6 +36,7 @@ public class AppleController {
                     .socialId(appleInfo.getId())
                     .build();
             memberService.saveMember(memberRequestDto);
+            log.info("accessToken = " + appleInfo.getAccessToken());
             return ResponseEntity.ok(new CustomEntity("Success", appleInfo));
 
         }catch (Exception e){

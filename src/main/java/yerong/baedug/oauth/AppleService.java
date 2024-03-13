@@ -120,6 +120,7 @@ public class AppleService {
 
         return AppleDto.builder()
                 .id(userId)
+                .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .email(email)
                 //.username(username)

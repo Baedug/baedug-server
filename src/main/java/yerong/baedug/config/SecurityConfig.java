@@ -49,9 +49,6 @@ public class SecurityConfig {
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )
-                .oauth2Login(oAuth2LoginConfigurer ->
-                        oAuth2LoginConfigurer
-                                .failureUrl("/login?error=true"))
                 .build();
     }
 
