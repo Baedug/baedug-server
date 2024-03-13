@@ -38,15 +38,15 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService {
         userInfo = decodeJwtTokenPayload(idToken);
         userInfo.put("id_token", idToken);
 
-        String socialId = (String) userInfo.get("socialId");
+        String sub = (String) userInfo.get("sub"); // Apple의 사용자 식별자
         String email = (String) userInfo.get("email");
-        Optional<Member> findUserOptional = memberRepository.findBySocialId(socialId);
+        Optional<Member> findUserOptional = memberRepository.findBySocialId(sub);
 
         if(!findUserOptional.isPresent()){ //회원가입
             Member member = Member.builder()
                     .email(email)
                     .socialProvider(SocialProvider.APPLE)
-                    .socialId(socialId)
+                    .socialId(sub)
                     .role(Role.USER)
                     .build();
             return new PrincipalDetails(memberRepository.save(member), userInfo);
