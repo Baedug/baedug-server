@@ -28,7 +28,7 @@ public class AppleController {
     private final OAuth2DetailsService oAuth2DetailsService;
 
     @PostMapping("/login/oauth2/code/apple")
-    public ResponseEntity<?> callback(@RequestParam("code") String code) throws Exception {
+    public ResponseEntity<?> callback(@RequestParam("code") String code, @RequestParam("id_token") String idToken) throws Exception {
         try {
             AppleDto appleInfo = appleService.getAppleInfo(code);
 //
