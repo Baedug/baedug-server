@@ -12,4 +12,5 @@ public class AppleDto {
     private String refreshToken;
     private String email;
     private String username;
+    private String idToken;
 }

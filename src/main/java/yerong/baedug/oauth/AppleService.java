@@ -70,7 +70,7 @@ public class AppleService {
         String email  = "";
         String accessToken = "";
         String refreshToken = "";
-
+        String idToken="";
 
 
         try {
@@ -102,7 +102,7 @@ public class AppleService {
 
             accessToken = String.valueOf(jsonObj.get("access_token"));
             refreshToken = String.valueOf(jsonObj.get("refresh_token"));
-
+            idToken = String.valueOf(jsonObj.get("id_token"));
             //ID TOKEN을 통해 회원 고유 식별자 받기
             SignedJWT signedJWT = SignedJWT.parse(String.valueOf(jsonObj.get("id_token")));
             ReadOnlyJWTClaimsSet getPayload = signedJWT.getJWTClaimsSet();
@@ -123,6 +123,7 @@ public class AppleService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .email(email)
+                .idToken(idToken)
                 //.username(username)
                 .build();
     }
@@ -133,6 +134,8 @@ public class AppleService {
         String accessToken = "";
         String userId = "";
         String email  = "";
+        String idToken  = "";
+
 
         try {
 
@@ -162,6 +165,7 @@ public class AppleService {
             JSONObject jsonObj = (JSONObject) jsonParser.parse(response.getBody());
 
             accessToken = String.valueOf(jsonObj.get("access_token"));
+
 
             //ID TOKEN을 통해 회원 고유 식별자 받기
             SignedJWT signedJWT = SignedJWT.parse(String.valueOf(jsonObj.get("id_token")));
