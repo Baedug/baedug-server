@@ -16,7 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedHeaders("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
-                .allowedOrigins(url, "https://appleid.apple.com")
+                .allowedOrigins("*")
                 .maxAge(3600);
 
     }
