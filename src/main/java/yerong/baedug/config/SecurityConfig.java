@@ -45,7 +45,9 @@ public class SecurityConfig {
                                         AntPathRequestMatcher.antMatcher("/v3/**"),
                                         AntPathRequestMatcher.antMatcher("/v3/api-docs/**"),
                                         AntPathRequestMatcher.antMatcher("/login/oauth2/code/apple"),
+                                        AntPathRequestMatcher.antMatcher("/api/directory"),
                                         AntPathRequestMatcher.antMatcher("/login/token")
+
 
                                 ).permitAll()
                                 .anyRequest().authenticated()
