@@ -69,6 +69,8 @@ public class AppleService {
         String userId = "";
         String email  = "";
         String accessToken = "";
+        String refreshToken = "";
+
 
 
         try {
@@ -82,6 +84,66 @@ public class AppleService {
             params.add("client_id"    , APPLE_CLIENT_ID);
             params.add("client_secret", clientSecret);
             params.add("code"         , code);
+            params.add("redirect_uri" , APPLE_REDIRECT_URL);
+
+
+            RestTemplate restTemplate = new RestTemplate();
+            HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(params, headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                    APPLE_AUTH_URL + "/auth/token",
+                    HttpMethod.POST,
+                    httpEntity,
+                    String.class
+            );
+
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObj = (JSONObject) jsonParser.parse(response.getBody());
+
+            accessToken = String.valueOf(jsonObj.get("access_token"));
+            refreshToken = String.valueOf(jsonObj.get("refresh_token"));
+
+            //ID TOKEN을 통해 회원 고유 식별자 받기
+            SignedJWT signedJWT = SignedJWT.parse(String.valueOf(jsonObj.get("id_token")));
+            ReadOnlyJWTClaimsSet getPayload = signedJWT.getJWTClaimsSet();
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            JSONObject payload = objectMapper.readValue(getPayload.toJSONObject().toJSONString(), JSONObject.class);
+
+            userId = String.valueOf(payload.get("sub"));
+            email  = String.valueOf(payload.get("email"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("API call failed", e);
+        }
+
+        return AppleDto.builder()
+                .id(userId)
+                .refreshToken(refreshToken)
+                .email(email)
+                //.username(username)
+                .build();
+    }
+    public AppleDto getAppleInfoByRefresh(String refreshToken) throws Exception {
+        if (refreshToken == null) throw new Exception("Failed get refreshToken");
+
+        String clientSecret = createClientSecret();
+        String accessToken = "";
+        String userId = "";
+        String email  = "";
+
+        try {
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-type", "application/x-www-form-urlencoded");
+
+
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+            params.add("grant_type"   , "refresh_token");
+            params.add("client_id"    , APPLE_CLIENT_ID);
+            params.add("client_secret", clientSecret);
+            params.add("refresh_token", refreshToken);
             params.add("redirect_uri" , APPLE_REDIRECT_URL);
 
 
@@ -114,12 +176,9 @@ public class AppleService {
             e.printStackTrace();
             throw new Exception("API call failed", e);
         }
-
         return AppleDto.builder()
                 .id(userId)
-                .token(accessToken)
                 .email(email)
-                //.username(username)
                 .build();
     }
 

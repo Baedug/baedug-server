@@ -8,7 +8,7 @@ import lombok.Data;
 public class AppleDto {
 
     private String id;
-    private String token;
+    private String refreshToken;
     private String email;
     private String username;
 }
