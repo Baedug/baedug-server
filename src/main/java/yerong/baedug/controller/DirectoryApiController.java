@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import yerong.baedug.domain.directory.Directory;
 import yerong.baedug.domain.member.Member;
 import yerong.baedug.dto.request.directory.DirectorySaveRequestDto;
-import yerong.baedug.oauth.PrincipalDetails;
+import yerong.baedug.oauth.AppleDto;
 import yerong.baedug.service.DirectoryService;
 
 @RestController
@@ -28,10 +28,10 @@ public class DirectoryApiController {
     private final DirectoryService directoryService;
 
     @PostMapping("/api/directory")
-    public ResponseEntity<?> addDirectory(@RequestBody DirectorySaveRequestDto dto,@AuthenticationPrincipal PrincipalDetails principalDetails){
+    public ResponseEntity<?> addDirectory(@RequestBody DirectorySaveRequestDto reqeustdto,@AuthenticationPrincipal AppleDto appleDto ){
 
-        log.info("====" + principalDetails.getMember().getSocialId());
-        Directory savedDirectory = directoryService.save(dto, principalDetails.getMember().getId());
+        log.info("====" + appleDto.getId());
+        Directory savedDirectory = directoryService.save(reqeustdto, appleDto.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(savedDirectory);
     }
 }

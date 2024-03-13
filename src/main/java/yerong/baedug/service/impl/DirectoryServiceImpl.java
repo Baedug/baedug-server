@@ -19,8 +19,8 @@ public class DirectoryServiceImpl implements DirectoryService {
     private final MemberRepository memberRepository;
     @Transactional
     @Override
-    public Directory save(DirectorySaveRequestDto requestDto, Long memberId){
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 id 입니다."));
+    public Directory save(DirectorySaveRequestDto requestDto, String socialId){
+        Member member = memberRepository.findBySocialId(socialId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 id 입니다."));
         Directory directory = Directory.builder()
                 .name(requestDto.getName())
                 .member(member)

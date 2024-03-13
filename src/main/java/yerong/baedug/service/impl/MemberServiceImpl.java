@@ -29,27 +29,27 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
-//    @Override
-//    @Transactional
-//    public MemberResponseDto saveMember(MemberRequestDto memberRequestDto){
-//        Member findMember = memberRepository.findByEmail(memberRequestDto.getEmail()).orElse(null);
-//        if (findMember == null) {
-//            Member member = Member.builder()
-//                    .email(memberRequestDto.getEmail())
-//                    //.username(memberRequestDto.getUsername())
-//                    .role(Role.USER)
-//                    .socialProvider(SocialProvider.APPLE)
-//                    .socialId(memberRequestDto.getSocialId())
-//                    .build();
-//            memberRepository.save(member);
-//            return MemberResponseDto.builder()
-//                    .email(member.getEmail()).build();
-//
-//        }
-//        else {
-//            return MemberResponseDto.builder()
-//                    .email(findMember.getEmail()).build();
-//        }
-//
-//    }
+    @Override
+    @Transactional
+    public MemberResponseDto saveMember(MemberRequestDto memberRequestDto){
+        Member findMember = memberRepository.findByEmail(memberRequestDto.getEmail()).orElse(null);
+        if (findMember == null) {
+            Member member = Member.builder()
+                    .email(memberRequestDto.getEmail())
+                    //.username(memberRequestDto.getUsername())
+                    .role(Role.USER)
+                    .socialProvider(SocialProvider.APPLE)
+                    .socialId(memberRequestDto.getSocialId())
+                    .build();
+            memberRepository.save(member);
+            return MemberResponseDto.builder()
+                    .email(member.getEmail()).build();
+
+        }
+        else {
+            return MemberResponseDto.builder()
+                    .email(findMember.getEmail()).build();
+        }
+
+    }
 }

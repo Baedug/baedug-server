@@ -4,5 +4,5 @@ import yerong.baedug.domain.directory.Directory;
 import yerong.baedug.dto.request.directory.DirectorySaveRequestDto;
 
 public interface DirectoryService {
-    Directory save(DirectorySaveRequestDto requestDto, Long memberId);
+    Directory save(DirectorySaveRequestDto requestDto, String socialId);
 }

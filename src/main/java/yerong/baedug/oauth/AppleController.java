@@ -25,18 +25,17 @@ public class AppleController {
 
     private final AppleService appleService;
     private final MemberService memberService;
-    private final OAuth2DetailsService oAuth2DetailsService;
 
     @PostMapping("/login/oauth2/code/apple")
-    public ResponseEntity<?> callback(@RequestParam("code") String code, @RequestParam("id_token") String idToken) throws Exception {
+    public ResponseEntity<?> callback(@RequestParam("code") String code) throws Exception {
         try {
             AppleDto appleInfo = appleService.getAppleInfo(code);
-//
-//            MemberRequestDto memberRequestDto = MemberRequestDto.builder()
-//                    .email(appleInfo.getEmail())
-//                    .socialId(appleInfo.getId())
-//                    .build();
-//            memberService.saveMember(memberRequestDto);
+
+            MemberRequestDto memberRequestDto = MemberRequestDto.builder()
+                    .email(appleInfo.getEmail())
+                    .socialId(appleInfo.getId())
+                    .build();
+            memberService.saveMember(memberRequestDto);
             return ResponseEntity.ok(new CustomEntity("Success", appleInfo));
 
         }catch (Exception e){
