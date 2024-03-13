@@ -1,6 +1,7 @@
 package yerong.baedug.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -20,6 +21,7 @@ import yerong.baedug.service.DirectoryService;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class DirectoryApiController {
 
     private final DirectoryService directoryService;
@@ -27,6 +29,7 @@ public class DirectoryApiController {
     @PostMapping("/api/directory")
     public ResponseEntity<?> addDirectory(@RequestBody DirectorySaveRequestDto dto, @AuthenticationPrincipal PrincipalDetails principalDetails){
 
+        log.info("=====" + principalDetails.getMember().getEmail());
         Directory savedDirectory = directoryService.save(dto, principalDetails.getMember().getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(savedDirectory);
     }

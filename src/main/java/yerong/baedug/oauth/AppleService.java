@@ -172,6 +172,7 @@ public class AppleService {
             userId = String.valueOf(payload.get("sub"));
             email  = String.valueOf(payload.get("email"));
 
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception("API call failed", e);
