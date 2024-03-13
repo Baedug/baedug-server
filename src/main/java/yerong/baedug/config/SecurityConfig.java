@@ -19,7 +19,6 @@ import yerong.baedug.oauth.CustomAuthenticationSuccessHandler;
 @Configuration
 public class SecurityConfig {
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-    //private final OAuth2DetailsService oAuth2DetailsService;
 
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception{
@@ -51,7 +50,6 @@ public class SecurityConfig {
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )
-
                 .build();
     }
 

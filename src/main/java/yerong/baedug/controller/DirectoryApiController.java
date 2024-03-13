@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,9 +28,9 @@ public class DirectoryApiController {
     private final DirectoryService directoryService;
 
     @PostMapping("/api/directory")
-    public ResponseEntity<?> addDirectory(@RequestBody DirectorySaveRequestDto dto, @AuthenticationPrincipal PrincipalDetails principalDetails){
+    public ResponseEntity<?> addDirectory(@RequestBody DirectorySaveRequestDto dto,@AuthenticationPrincipal PrincipalDetails principalDetails){
 
-        log.info("=====" + principalDetails.getMember().getEmail());
+        log.info("====" + principalDetails.getMember().getSocialId());
         Directory savedDirectory = directoryService.save(dto, principalDetails.getMember().getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(savedDirectory);
     }

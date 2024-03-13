@@ -1,10 +1,15 @@
 package yerong.baedug.oauth;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
@@ -20,18 +25,18 @@ public class AppleController {
 
     private final AppleService appleService;
     private final MemberService memberService;
-   // private final OAuth2DetailsService oAuth2DetailsService;
+    private final OAuth2DetailsService oAuth2DetailsService;
 
     @PostMapping("/login/oauth2/code/apple")
     public ResponseEntity<?> callback(@RequestParam("code") String code) throws Exception {
         try {
             AppleDto appleInfo = appleService.getAppleInfo(code);
-
-            MemberRequestDto memberRequestDto = MemberRequestDto.builder()
-                    .email(appleInfo.getEmail())
-                    .socialId(appleInfo.getId())
-                    .build();
-            memberService.saveMember(memberRequestDto);
+//
+//            MemberRequestDto memberRequestDto = MemberRequestDto.builder()
+//                    .email(appleInfo.getEmail())
+//                    .socialId(appleInfo.getId())
+//                    .build();
+//            memberService.saveMember(memberRequestDto);
             return ResponseEntity.ok(new CustomEntity("Success", appleInfo));
 
         }catch (Exception e){
@@ -43,15 +48,12 @@ public class AppleController {
     }
 
     @PostMapping("/login/oauth2/token/apple")
-    public ResponseEntity<?> loginWithToken(@RequestParam("token") String token) throws Exception {
+    public ResponseEntity<?> loginWithToken(@RequestParam("token") String token, HttpServletRequest request) throws Exception {
         try {
             AppleDto appleDto = appleService.getAppleInfoByRefresh(token);
 
-            MemberRequestDto memberRequestDto = MemberRequestDto.builder()
-                    .email(appleDto.getEmail())
-                    .socialId(appleDto.getId())
-                    .build();
-            memberService.saveMember(memberRequestDto);
+
+
             return ResponseEntity.ok(new CustomEntity("Success", appleDto));
         }
         catch (Exception e) {
