@@ -51,7 +51,6 @@ public class SecurityConfig {
                 )
                 .oauth2Login(oAuth2LoginConfigurer ->
                         oAuth2LoginConfigurer
-                                .defaultSuccessUrl("/")
                                 .failureUrl("/login?error=true"))
                 .build();
     }
