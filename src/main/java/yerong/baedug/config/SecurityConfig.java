@@ -49,6 +49,10 @@ public class SecurityConfig {
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )
+                .oauth2Login(oAuth2LoginConfigurer ->
+                        oAuth2LoginConfigurer
+                                .defaultSuccessUrl("/")
+                                .failureUrl("/login?error=true"))
                 .build();
     }
 

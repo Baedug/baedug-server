@@ -28,10 +28,22 @@ public class DirectoryApiController {
     private final DirectoryService directoryService;
 
     @PostMapping("/api/directory")
-    public ResponseEntity<?> addDirectory(@RequestBody DirectorySaveRequestDto reqeustdto,@AuthenticationPrincipal AppleDto appleDto ){
+    public ResponseEntity<?> addDirectory(@RequestBody DirectorySaveRequestDto requestDto, Authentication authentication){
+        if (authentication != null && authentication.isAuthenticated()) {
+            String socialId = null;
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                socialId = ((UserDetails) principal).getUsername();
+            } else if (principal instanceof OAuth2User) {
+                socialId = ((OAuth2User) principal).getAttribute("sub");
+            }
 
-        log.info("====" + appleDto.getId());
-        Directory savedDirectory = directoryService.save(reqeustdto, appleDto.getId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedDirectory);
+            Directory savedDirectory = directoryService.save(requestDto, socialId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedDirectory);
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        }
     }
 }
