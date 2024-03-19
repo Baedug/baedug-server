@@ -1,4 +1,4 @@
-package yerong.baedug.oauth;
+package yerong.baedug.oauth.handler;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

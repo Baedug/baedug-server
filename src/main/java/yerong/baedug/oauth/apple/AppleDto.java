@@ -1,4 +1,4 @@
-package yerong.baedug.oauth;
+package yerong.baedug.oauth.apple;
 
 import lombok.Builder;
 import lombok.Data;
