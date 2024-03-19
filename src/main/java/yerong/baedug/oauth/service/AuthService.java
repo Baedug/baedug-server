@@ -33,15 +33,16 @@ public class AuthService {
 
         if(member == null){
             log.info("member null");
-            Member savedMember = Member.builder()
+            member = Member.builder()
                     .socialId(memberRequestDto.getSocialId())
                     .email(memberRequestDto.getEmail())
                     .socialProvider(SocialProvider.APPLE)
                     .role(Role.USER)
                     .build();
-            memberRepository.save(savedMember);
+            memberRepository.save(member);
             log.info("success save");
         }
+
         log.info("[login] 계정을 찾았습니다. " + member);
 
         TokenDto tokenDto = jwtProvider.generateTokenDto(memberRequestDto.getSocialId());
