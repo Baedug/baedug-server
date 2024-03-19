@@ -53,7 +53,6 @@ public class SecurityConfig {
 
 
                                 ).permitAll()
-                                .anyRequest().authenticated()
                                 .requestMatchers(
                                         AntPathRequestMatcher.antMatcher(HttpMethod.OPTIONS)
                                 )
