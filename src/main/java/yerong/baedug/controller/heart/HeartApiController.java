@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HeartApiController {
 
-    private HeartService heartService;
+    private final HeartService heartService;
 
     @PostMapping("/api/note/{noteId}/heart")
     public ResponseEntity<?> heart(
