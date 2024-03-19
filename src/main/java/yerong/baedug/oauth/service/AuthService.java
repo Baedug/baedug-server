@@ -27,7 +27,7 @@ public class AuthService {
     @Transactional
     public TokenDto login(MemberRequestDto memberRequestDto){
         log.info("success2 ==> memberDto = " + "socialId : " + memberRequestDto.getSocialId() +  "email : "  + memberRequestDto.getEmail());
-        Member member = memberRepository.findBySocialId(memberRequestDto.getSocialId()).orElseThrow(null);
+        Member member = memberRepository.findBySocialId(memberRequestDto.getSocialId()).orElse(null);
         log.info("member ? == " + member);
 
         if(member == null){
