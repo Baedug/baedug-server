@@ -1,5 +1,6 @@
 package yerong.baedug.domain.directory;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.aspectj.weaver.ast.Not;
@@ -26,6 +27,7 @@ public class Directory extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id")
+    @JsonIgnoreProperties("directories")
     private Member member;
 
     @OneToMany(mappedBy = "directory")
