@@ -34,6 +34,7 @@ public class AppleController {
                     .email(appleInfo.getEmail())
                     .socialId(appleInfo.getId())
                     .build();
+            log.info("success2 ==> memberDto = " + memberRequestDto.toString());
             TokenDto tokenDto = authService.login(memberRequestDto);
             log.info("success3");
 
