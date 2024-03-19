@@ -31,7 +31,7 @@ public class NoteApiController {
     public ResponseEntity<?> addNote(@PathVariable Long directoryId, @RequestBody NoteSaveRequestDto requestDto){
 
         Note savedNote = noteService.save(requestDto, directoryId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedNote);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new NoteResponseDto(savedNote));
 
     }
 
