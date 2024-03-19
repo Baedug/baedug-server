@@ -25,21 +25,15 @@ public class AppleController {
     @PostMapping("/login/oauth2/code/apple")
     public ResponseEntity<?> callback(@RequestParam("code") String code) throws Exception {
         try {
-            log.info("success1");
-
             AppleDto appleInfo = appleService.getAppleInfo(code);
 
-            log.info("success2");
             MemberRequestDto memberRequestDto = MemberRequestDto.builder()
                     .email(appleInfo.getEmail())
                     .socialId(appleInfo.getId())
                     .build();
-            log.info("success2 ==> memberDto = " + "socialId : " + memberRequestDto.getSocialId() +  "email : "  + memberRequestDto.getEmail());
             TokenDto tokenDto = authService.login(memberRequestDto);
-            log.info("success3");
 
             HttpHeaders headers = authService.setTokenHeaders(tokenDto);
-            log.info("success4");
 
             return ResponseEntity.ok().headers(headers).body(new CustomEntity("Success", "accessToken: " + tokenDto.getAccessToken()));
 

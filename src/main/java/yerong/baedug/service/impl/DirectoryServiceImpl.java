@@ -34,8 +34,9 @@ public class DirectoryServiceImpl implements DirectoryService {
 
     @Override
     @Transactional
-    public List<Directory> findAll(){
-        return directoryRepository.findAll();
+    public List<Directory> findAll(String socialId){
+        Member member = memberRepository.findBySocialId(socialId).orElseThrow(() -> new IllegalArgumentException("찾을 수 없는 회원 id 입니다."));
+        return directoryRepository.findAllByMemberId(member.getId());
     }
 
     @Override

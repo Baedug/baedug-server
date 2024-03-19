@@ -11,6 +11,5 @@ public interface DirectoryService {
     Directory update(Long id, UpdateDirectoryRequestDto requestDto);
     void delete(Long id);
     Directory findById(Long id);
-    List<Directory> findAll();
-
+    List<Directory> findAll(String socialId);
 }
