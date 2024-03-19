@@ -52,7 +52,6 @@ public class Member extends BaseTimeEntity {
     }
     public void addDirectory(Directory directory) {
         this.directories.add(directory);
-        directory.setMember(this);
     }
 
     public void removeDirectory(Directory directory) {

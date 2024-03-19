@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import yerong.baedug.domain.member.Member;
 import yerong.baedug.domain.member.Role;
 import yerong.baedug.domain.member.SocialProvider;
-import yerong.baedug.dto.request.MemberRequestDto;
+import yerong.baedug.dto.request.member.MemberRequestDto;
 import yerong.baedug.oauth.domain.RefreshToken;
 import yerong.baedug.oauth.jwt.JwtProvider;
 import yerong.baedug.oauth.jwt.TokenDto;

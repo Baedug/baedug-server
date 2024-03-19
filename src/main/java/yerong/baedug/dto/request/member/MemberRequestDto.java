@@ -1,4 +1,4 @@
-package yerong.baedug.dto.response;
+package yerong.baedug.dto.request.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @Builder
 @AllArgsConstructor
-public class MemberResponseDto {
-
+public class MemberRequestDto {
+    private String socialId;
+  //  private String username;
     private String email;
- //   private String username;
 }

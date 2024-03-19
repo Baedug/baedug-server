@@ -1,7 +1,7 @@
 package yerong.baedug.service;
 
-import yerong.baedug.dto.request.MemberRequestDto;
-import yerong.baedug.dto.response.MemberResponseDto;
+import yerong.baedug.dto.request.member.MemberRequestDto;
+import yerong.baedug.dto.response.member.MemberResponseDto;
 
 public interface MemberService {
     MemberResponseDto findByAppleId(String appleId);

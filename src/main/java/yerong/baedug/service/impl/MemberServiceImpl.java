@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import yerong.baedug.domain.member.Member;
 import yerong.baedug.domain.member.Role;
 import yerong.baedug.domain.member.SocialProvider;
-import yerong.baedug.dto.request.MemberRequestDto;
-import yerong.baedug.dto.response.MemberResponseDto;
+import yerong.baedug.dto.request.member.MemberRequestDto;
+import yerong.baedug.dto.response.member.MemberResponseDto;
 import yerong.baedug.repository.member.MemberRepository;
 import yerong.baedug.service.MemberService;
 

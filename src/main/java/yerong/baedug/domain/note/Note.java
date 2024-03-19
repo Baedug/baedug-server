@@ -5,6 +5,7 @@ import lombok.*;
 import yerong.baedug.domain.BaseTimeEntity;
 import yerong.baedug.domain.directory.Directory;
 import yerong.baedug.domain.heart.Heart;
+import yerong.baedug.domain.member.Member;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -34,4 +35,23 @@ public class Note extends BaseTimeEntity {
     private Heart heart;
 
 
+    @Builder
+    public Note(String title, String content, Directory directory){
+        this.title = title;
+        this.content = content;
+        this.directory = directory;
+    }
+
+    public void update(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
+
+    public void setDirectory(Directory directory){
+        this.directory = directory;
+    }
+    public void removeDirectory() {
+        this.directory.getNotes().remove(this);
+        this.directory = null;
+    }
 }

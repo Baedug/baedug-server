@@ -1,14 +1,13 @@
 package yerong.baedug.oauth.apple;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import yerong.baedug.dto.request.MemberRequestDto;
-import yerong.baedug.oauth.CustomEntity;
+import yerong.baedug.dto.request.member.MemberRequestDto;
+import yerong.baedug.oauth.common.CustomEntity;
 import yerong.baedug.oauth.jwt.TokenDto;
 import yerong.baedug.oauth.service.AuthService;
 import yerong.baedug.service.MemberService;

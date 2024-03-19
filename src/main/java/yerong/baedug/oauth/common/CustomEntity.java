@@ -1,4 +1,4 @@
-package yerong.baedug.oauth;
+package yerong.baedug.oauth.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

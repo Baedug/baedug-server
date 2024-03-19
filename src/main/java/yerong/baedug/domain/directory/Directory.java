@@ -50,4 +50,13 @@ public class Directory extends BaseTimeEntity {
         this.member.getDirectories().remove(this);
         this.member = null;
     }
+
+    public void addNote(Note note) {
+        this.notes.add(note);
+    }
+
+    public void removeNote(Note note) {
+        this.notes.remove(note);
+        note.setDirectory(null);
+    }
 }

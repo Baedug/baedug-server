@@ -1,4 +1,4 @@
-package yerong.baedug.controller;
+package yerong.baedug.controller.directory;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
