@@ -50,7 +50,15 @@ public class Member extends BaseTimeEntity {
     public void updateName(String username){
         this.username = username;
     }
+    public void addDirectory(Directory directory) {
+        this.directories.add(directory);
+        directory.setMember(this);
+    }
 
+    public void removeDirectory(Directory directory) {
+        this.directories.remove(directory);
+        directory.setMember(null);
+    }
     @Builder
     public Member(Role role, String username, SocialProvider socialProvider, String socialId, String email) {
         this.role = role;

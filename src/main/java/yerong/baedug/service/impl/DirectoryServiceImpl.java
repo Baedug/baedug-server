@@ -29,6 +29,8 @@ public class DirectoryServiceImpl implements DirectoryService {
                 .name(requestDto.getName())
                 .member(member)
                 .build();
+        member.addDirectory(directory);
+
         return directoryRepository.save(directory);
     }
 
@@ -52,6 +54,7 @@ public class DirectoryServiceImpl implements DirectoryService {
         Directory directory = directoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 디렉토리입니다."));
         authorizeDirectoryMember(directory);
+        directory.removeMember();
         directoryRepository.delete(directory);
     }
 
