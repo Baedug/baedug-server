@@ -44,4 +44,21 @@ public class AppleController {
         }
 
     }
+
+    @PostMapping("/login/refresh")
+    public ResponseEntity<?> refreshAccessToken(@RequestHeader("RefreshToken") String refreshToken) {
+        try {
+            // RefreshToken을 사용하여 새로운 AccessToken 및 RefreshToken 발급
+            TokenDto tokenDto = authService.refreshAccessToken(refreshToken);
+            HttpHeaders headers = authService.setTokenHeaders(tokenDto);
+
+            // AccessToken 및 RefreshToken을 헤더에 포함하여 응답
+            return ResponseEntity.ok().headers(headers).body(new CustomEntity("Success", "accessToken: " + tokenDto.getAccessToken()));
+        } catch (Exception e) {
+            log.error("RefreshToken 오류: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new CustomEntity("Error", "RefreshToken 오류"));
+        }
+    }
+
 }

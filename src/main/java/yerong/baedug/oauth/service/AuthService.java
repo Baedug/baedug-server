@@ -27,12 +27,9 @@ public class AuthService {
 
     @Transactional
     public TokenDto login(MemberRequestDto memberRequestDto){
-        log.info("success2 ==> memberDto = " + "socialId : " + memberRequestDto.getSocialId() +  "email : "  + memberRequestDto.getEmail());
         Member member = memberRepository.findBySocialId(memberRequestDto.getSocialId()).orElse(null);
-        log.info("member ? == " + member);
 
         if(member == null){
-            log.info("member null");
             member = Member.builder()
                     .socialId(memberRequestDto.getSocialId())
                     .email(memberRequestDto.getEmail())
@@ -40,7 +37,6 @@ public class AuthService {
                     .role(Role.USER)
                     .build();
             memberRepository.save(member);
-            log.info("success save");
         }
 
         log.info("[login] 계정을 찾았습니다. " + member);
@@ -56,6 +52,26 @@ public class AuthService {
                 .build();
 
         refreshTokenRepository.save(refreshToken);
+        return tokenDto;
+    }
+    @Transactional
+    public TokenDto refreshAccessToken(String refreshTokenValue){
+        // RefreshToken을 이용하여 Member 조회
+        RefreshToken refreshToken = refreshTokenRepository.findByRefreshToken(refreshTokenValue).orElse(null);
+        if (refreshToken == null) {
+            throw new IllegalArgumentException("Invalid refresh token");
+        }
+
+        Member member = memberRepository.findById(refreshToken.getMemberId())
+                .orElseThrow(() -> new IllegalArgumentException("Member not found for the refresh token"));
+
+        // 새로운 AccessToken 발급
+        TokenDto tokenDto = jwtProvider.generateTokenDto(member.getSocialId());
+
+        // 기존 RefreshToken 업데이트
+        refreshToken.update(tokenDto.getRefreshToken());
+        refreshTokenRepository.save(refreshToken);
+
         return tokenDto;
     }
     public HttpHeaders setTokenHeaders(TokenDto tokenDto) {
