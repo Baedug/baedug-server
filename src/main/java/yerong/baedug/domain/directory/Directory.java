@@ -36,4 +36,9 @@ public class Directory extends BaseTimeEntity {
         this.name = name;
         this.member = member;
     }
+
+    public void update(String name){
+        this.name = name;
+    }
+
 }
