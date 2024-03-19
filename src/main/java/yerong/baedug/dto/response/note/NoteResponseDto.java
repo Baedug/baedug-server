@@ -3,6 +3,7 @@ package yerong.baedug.dto.response.note;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import yerong.baedug.domain.directory.Directory;
+import yerong.baedug.domain.heart.Heart;
 import yerong.baedug.domain.note.Note;
 
 @Getter
@@ -15,5 +16,10 @@ public class NoteResponseDto {
     public NoteResponseDto(Note note){
         this.title = note.getTitle();
         this.content = note.getContent();
+    }
+
+    public NoteResponseDto(Heart heart){
+        this.title = heart.getNote().getTitle();
+        this.content = heart.getNote().getContent();
     }
 }
