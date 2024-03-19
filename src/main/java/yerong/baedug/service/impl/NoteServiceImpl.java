@@ -69,9 +69,22 @@ public class NoteServiceImpl implements NoteService {
     @Transactional
     public Note update(Long id, UpdateNoteRequestDto requestDto){
         Note note = noteRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("찾을 수 없는 note id 입니다."));
-
+        String newTitle;
+        String newContent;
+        if(requestDto.getTitle() == null){
+            newTitle = note.getTitle();
+        }
+        else {
+            newTitle = requestDto.getTitle();
+        }
+        if(requestDto.getContent() == null){
+            newContent = note.getContent();
+        }
+        else{
+            newContent = requestDto.getContent();
+        }
         authorizeNoteMember(note);
-        note.update(requestDto.getTitle(), requestDto.getContent());
+        note.update(newTitle, newContent);
         return note;
     }
 
