@@ -37,7 +37,9 @@ public class SecurityConfig {
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers(HttpMethod.OPTIONS)
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher(HttpMethod.OPTIONS)
+                                        )
                                 .permitAll())
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
