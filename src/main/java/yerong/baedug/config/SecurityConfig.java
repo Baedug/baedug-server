@@ -38,12 +38,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers(
-                                        AntPathRequestMatcher.antMatcher(HttpMethod.OPTIONS)
-                                        )
-                                .permitAll())
-                .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests
-                                .requestMatchers(
                                         AntPathRequestMatcher.antMatcher("/health-check"),
                                         AntPathRequestMatcher.antMatcher("/health-check/**"),
                                         AntPathRequestMatcher.antMatcher("/swagger"),
@@ -60,17 +54,17 @@ public class SecurityConfig {
 
                                 ).permitAll()
                                 .anyRequest().authenticated()
-                )
-                .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher(HttpMethod.OPTIONS)
+                                )
+                                .permitAll()
                                 .requestMatchers(
                                         AntPathRequestMatcher.antMatcher("/"),
                                         AntPathRequestMatcher.antMatcher("/api/**"),
                                         AntPathRequestMatcher.antMatcher("/api/**"),
                                         AntPathRequestMatcher.antMatcher("/api/directory")
-                                        ).authenticated().anyRequest().permitAll()
+                                ).authenticated().anyRequest().permitAll()
                 )
-
                 .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
                         .accessDeniedHandler(customAccessDeniedHandler)
