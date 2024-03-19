@@ -67,7 +67,7 @@ public class DirectoryServiceImpl implements DirectoryService {
 
     private static void authorizeDirectoryMember(Directory directory) {
         String socialId = SecurityContextHolder.getContext().getAuthentication().getName();
-        if(!directory.getMember().getSocialId().equals(directory)){
+        if(!directory.getMember().getSocialId().equals(socialId)){
             throw new IllegalArgumentException("not authorized");
         }
     }
