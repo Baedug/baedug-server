@@ -34,16 +34,20 @@ public class AuthService {
                     .role(Role.USER)
                     .build();
             memberRepository.save(savedMember);
+            log.info("success save");
         }
         log.info("[login] 계정을 찾았습니다. " + member);
 
         TokenDto tokenDto = jwtProvider.generateTokenDto(memberRequestDto.getSocialId());
+        log.info("success token");
+        log.info("===" + tokenDto.toString());
 
         RefreshToken refreshToken =
                 RefreshToken.builder()
                 .memberId(member.getId())
                 .refreshToken(tokenDto.getRefreshToken())
                 .build();
+
         refreshTokenRepository.save(refreshToken);
         return tokenDto;
     }
