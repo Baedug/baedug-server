@@ -33,7 +33,7 @@ public class AuthService {
                     .email(memberRequestDto.getEmail())
                     .role(Role.USER)
                     .build();
-            memberRepository.save(member);
+            memberRepository.save(savedMember);
         }
         log.info("[login] 계정을 찾았습니다. " + member);
 
