@@ -30,7 +30,7 @@ public class Directory extends BaseTimeEntity {
     @JsonIgnoreProperties("directories")
     private Member member;
 
-    @OneToMany(mappedBy = "directory")
+    @OneToMany(mappedBy = "directory",  orphanRemoval = true)
     private List<Note> notes = new ArrayList<>();
 
     @Builder
