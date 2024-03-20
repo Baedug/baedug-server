@@ -30,8 +30,7 @@ public class Note extends BaseTimeEntity {
     @JoinColumn(name = "directory_id")
     private Directory directory;
 
-    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "heart_id")
+    @OneToOne(mappedBy = "note", fetch = LAZY, cascade = CascadeType.ALL)
     private Heart heart;
 
 

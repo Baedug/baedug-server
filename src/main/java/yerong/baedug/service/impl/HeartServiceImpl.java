@@ -42,5 +42,6 @@ public class HeartServiceImpl implements HeartService {
         List<Heart> heartList = heartRepository.findAllByMemberId(member.getId());
 
         return heartList;
+
     }
 }
