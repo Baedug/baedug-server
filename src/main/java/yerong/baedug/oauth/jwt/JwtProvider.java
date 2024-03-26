@@ -4,7 +4,6 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.sql.ast.tree.expression.Collation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,7 +12,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import yerong.baedug.domain.member.Role;
+import yerong.baedug.member.domain.Role;
+import yerong.baedug.oauth.dto.TokenDto;
 
 import java.security.Key;
 import java.util.Arrays;

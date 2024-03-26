@@ -1,7 +1,6 @@
 package yerong.baedug.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,23 +11,20 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import yerong.baedug.domain.directory.Directory;
-import yerong.baedug.domain.member.Member;
-import yerong.baedug.domain.member.Role;
-import yerong.baedug.domain.member.SocialProvider;
-import yerong.baedug.dto.request.directory.DirectorySaveRequestDto;
-import yerong.baedug.repository.directory.DirectoryRepository;
-import yerong.baedug.repository.member.MemberRepository;
+import yerong.baedug.directory.domain.Directory;
+import yerong.baedug.member.domain.Member;
+import yerong.baedug.member.domain.Role;
+import yerong.baedug.member.domain.SocialProvider;
+import yerong.baedug.directory.dto.request.DirectorySaveRequestDto;
+import yerong.baedug.directory.repository.DirectoryRepository;
+import yerong.baedug.member.repository.MemberRepository;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.bouncycastle.asn1.x500.style.RFC4519Style.member;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

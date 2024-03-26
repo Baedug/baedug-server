@@ -6,15 +6,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import yerong.baedug.domain.member.Member;
-import yerong.baedug.domain.member.Role;
-import yerong.baedug.domain.member.SocialProvider;
-import yerong.baedug.dto.request.member.MemberRequestDto;
+import yerong.baedug.member.domain.Member;
+import yerong.baedug.member.domain.Role;
+import yerong.baedug.member.domain.SocialProvider;
+import yerong.baedug.member.dto.request.MemberRequestDto;
 import yerong.baedug.oauth.domain.RefreshToken;
 import yerong.baedug.oauth.jwt.JwtProvider;
-import yerong.baedug.oauth.jwt.TokenDto;
+import yerong.baedug.oauth.dto.TokenDto;
 import yerong.baedug.oauth.repository.RefreshTokenRepository;
-import yerong.baedug.repository.member.MemberRepository;
+import yerong.baedug.member.repository.MemberRepository;
 
 @Slf4j
 @Service

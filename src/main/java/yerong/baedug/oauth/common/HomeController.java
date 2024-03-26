@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import yerong.baedug.oauth.apple.AppleService;
+import yerong.baedug.oauth.service.apple.AppleService;
 
 @RequiredArgsConstructor
 @Controller
