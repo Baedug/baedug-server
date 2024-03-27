@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import yerong.baedug.common.exception.BaseException;
+import yerong.baedug.common.exception.NoteException;
+import yerong.baedug.common.response.ResponseCode;
 import yerong.baedug.directory.domain.Directory;
 import yerong.baedug.note.domain.Note;
 import yerong.baedug.note.dto.request.NoteSaveRequestDto;
@@ -56,7 +59,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     @Transactional
     public void delete(Long noteId){
-        Note note = noteRepository.findById(noteId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 note id입니다."));
+        Note note = noteRepository.findById(noteId).orElseThrow(() -> new NoteException(ResponseCode.NOTE_NOT_FOUND));
         authorizeNoteMember(note);
         note.removeDirectory();
         noteRepository.delete(note);
@@ -65,7 +68,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     @Transactional
     public Note update(Long id, UpdateNoteRequestDto requestDto){
-        Note note = noteRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("찾을 수 없는 note id 입니다."));
+        Note note = noteRepository.findById(id).orElseThrow(() -> new NoteException(ResponseCode.NOTE_NOT_FOUND));
         String newTitle;
         String newContent;
         if(requestDto.getTitle() == null){
@@ -88,7 +91,7 @@ public class NoteServiceImpl implements NoteService {
     private static void authorizeNoteMember(Note note) {
         String socialId = SecurityContextHolder.getContext().getAuthentication().getName();
         if(!note.getDirectory().getMember().getSocialId().equals(socialId)){
-            throw new IllegalArgumentException("not authorized");
+            throw new BaseException(ResponseCode.FORBIDDEN);
         }
     }
 }

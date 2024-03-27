@@ -6,6 +6,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import yerong.baedug.common.exception.UserException;
+import yerong.baedug.common.response.ResponseCode;
 import yerong.baedug.member.domain.Member;
 import yerong.baedug.member.domain.Role;
 import yerong.baedug.member.domain.SocialProvider;
@@ -63,7 +65,7 @@ public class AuthService {
         }
 
         Member member = memberRepository.findById(refreshToken.getMemberId())
-                .orElseThrow(() -> new IllegalArgumentException("Member not found for the refresh token"));
+                .orElseThrow(() -> new UserException(ResponseCode.USER_NOT_FOUND));
 
         // 새로운 AccessToken 발급
         TokenDto tokenDto = jwtProvider.generateTokenDto(member.getSocialId());

@@ -1,9 +1,14 @@
 package yerong.baedug.directory.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.connector.Response;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import yerong.baedug.common.exception.BaseException;
+import yerong.baedug.common.exception.DirectoryException;
+import yerong.baedug.common.exception.UserException;
+import yerong.baedug.common.response.ResponseCode;
 import yerong.baedug.directory.domain.Directory;
 import yerong.baedug.member.domain.Member;
 import yerong.baedug.directory.dto.request.DirectorySaveRequestDto;
@@ -23,7 +28,7 @@ public class DirectoryServiceImpl implements DirectoryService {
     @Transactional
     @Override
     public Directory save(DirectorySaveRequestDto requestDto, String socialId){
-        Member member = memberRepository.findBySocialId(socialId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 id 입니다."));
+        Member member = memberRepository.findBySocialId(socialId).orElseThrow(() -> new UserException(ResponseCode.USER_NOT_FOUND));
         Directory directory = Directory.builder()
                 .name(requestDto.getName())
                 .member(member)
@@ -36,7 +41,7 @@ public class DirectoryServiceImpl implements DirectoryService {
     @Override
     @Transactional
     public List<Directory> findAll(String socialId){
-        Member member = memberRepository.findBySocialId(socialId).orElseThrow(() -> new IllegalArgumentException("찾을 수 없는 회원 id 입니다."));
+        Member member = memberRepository.findBySocialId(socialId).orElseThrow(() -> new UserException(ResponseCode.USER_NOT_FOUND));
         return directoryRepository.findAllByMemberId(member.getId());
     }
 
@@ -44,14 +49,14 @@ public class DirectoryServiceImpl implements DirectoryService {
     @Transactional
     public Directory findById(Long id){
         return directoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 디렉토리입니다."));
+                .orElseThrow(() -> new DirectoryException(ResponseCode.DIRECTORY_READ_SUCCESS));
     }
 
     @Override
     @Transactional
     public void delete(Long id){
         Directory directory = directoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 디렉토리입니다."));
+                .orElseThrow(() -> new DirectoryException(ResponseCode.DIRECTORY_READ_SUCCESS));
         authorizeDirectoryMember(directory);
         directory.removeMember();
         directoryRepository.delete(directory);
@@ -61,7 +66,7 @@ public class DirectoryServiceImpl implements DirectoryService {
     @Transactional
     public Directory update(Long id, UpdateDirectoryRequestDto requestDto){
         Directory directory = directoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 디렉토리입니다."));
+                .orElseThrow(() -> new DirectoryException(ResponseCode.DIRECTORY_READ_SUCCESS));
         authorizeDirectoryMember(directory);
         directory.update(requestDto.getName());
         return directory;
@@ -70,7 +75,7 @@ public class DirectoryServiceImpl implements DirectoryService {
     private static void authorizeDirectoryMember(Directory directory) {
         String socialId = SecurityContextHolder.getContext().getAuthentication().getName();
         if(!directory.getMember().getSocialId().equals(socialId)){
-            throw new IllegalArgumentException("not authorized");
+            throw new BaseException(ResponseCode.FORBIDDEN);
         }
     }
 }
