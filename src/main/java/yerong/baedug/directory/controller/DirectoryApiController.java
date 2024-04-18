@@ -22,10 +22,11 @@ public class DirectoryApiController {
     private final DirectoryService directoryService;
 
     @PostMapping("/api/directory")
-    public ResponseEntity<?> addDirectory(Principal principal, @RequestBody DirectorySaveRequestDto requestDto){
+    public ResponseEntity<DirectoryResponseDto> addDirectory(Principal principal, @RequestBody DirectorySaveRequestDto requestDto){
         String socialId = principal.getName();
         Directory savedDirectory = directoryService.save(requestDto, socialId);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedDirectory);
+        DirectoryResponseDto directoryResponseDto = new DirectoryResponseDto(savedDirectory);
+            return ResponseEntity.status(HttpStatus.CREATED).body(directoryResponseDto);
 
     }
 
