@@ -1,11 +1,7 @@
 package yerong.baedug.heart.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import yerong.baedug.common.exception.HeartException;
-import yerong.baedug.common.response.ApiHeader;
 import yerong.baedug.common.response.ApiResponse;
 import yerong.baedug.common.response.ResponseCode;
 import yerong.baedug.note.dto.response.NoteResponseDto;
