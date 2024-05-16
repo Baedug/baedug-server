@@ -1,11 +1,16 @@
 package yerong.baedug.directory.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import yerong.baedug.common.response.ApiResponseCustom;
+import yerong.baedug.common.response.ResponseCode;
 import yerong.baedug.directory.domain.Directory;
 import yerong.baedug.directory.dto.request.DirectorySaveRequestDto;
 import yerong.baedug.directory.dto.request.UpdateDirectoryRequestDto;
@@ -18,51 +23,60 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "Directory", description = "Directory API")
 public class DirectoryApiController {
 
     private final DirectoryService directoryService;
 
-    @Operation(summary = "디렉토리 생성", description = "디렉토리를 생성한다")
+    @Operation(summary = "디렉토리 생성", description = "디렉토리를 생성하는 Controller")
     @PostMapping("/api/directory")
-    public ResponseEntity<DirectoryResponseDto> addDirectory(Principal principal, @RequestBody DirectorySaveRequestDto requestDto){
+    @ApiResponses(value =  {
+            @ApiResponse(responseCode = "201", description = "디렉토리 생성 성공", content = @Content(mediaType = "application/json"))
+    })
+    public ApiResponseCustom<DirectoryResponseDto> addDirectory(Principal principal, @RequestBody DirectorySaveRequestDto requestDto){
         String socialId = principal.getName();
         Directory savedDirectory = directoryService.save(requestDto, socialId);
         DirectoryResponseDto directoryResponseDto = new DirectoryResponseDto(savedDirectory);
-            return ResponseEntity.status(HttpStatus.CREATED).body(directoryResponseDto);
-
+            return ApiResponseCustom.create(directoryResponseDto, ResponseCode.DIRECTORY_CREATE_SUCCESS);
     }
 
-    @Operation(summary = "디렉토리 전체 조회", description = "디렉토리를 전체 조회한다")
+    @ApiResponses(value =  {
+            @ApiResponse(responseCode = "200", description = "디렉토리 전체 조회 성공", content = @Content(mediaType = "application/json"))
+    })
+    @Operation(summary = "디렉토리 전체 조회", description = "디렉토리를 전체 조회하는 Controller")
     @GetMapping("/api/directory")
-    public ResponseEntity<?> findAllDirectory(Principal principal){
+    public ApiResponseCustom<?> findAllDirectory(Principal principal){
         String socialId = principal.getName();
         List<DirectoryResponseDto> directories = directoryService.findAll(socialId)
                 .stream()
                 .map(DirectoryResponseDto::new)
                 .toList();
 
-        return ResponseEntity.ok().body(directories);
+        return ApiResponseCustom.success(directories, ResponseCode.DIRECTORY_READ_ALL_SUCCESS);
     }
 
-    @Operation(summary = "디렉토리 id로 조회", description = "디렉토리를 디렉토리 id로 조회한다")
+    @ApiResponses(value =  {
+            @ApiResponse(responseCode = "200", description = "디렉토리 조회 성공", content = @Content(mediaType = "application/json"))
+    })
+    @Operation(summary = "디렉토리 id로 조회", description = "디렉토리를 디렉토리 id로 조회하는 Controller")
     @GetMapping("/api/directory/{id}")
-    public ResponseEntity<?> findDirectory(@PathVariable Long id) {
+    public ApiResponseCustom<?> findDirectory(@PathVariable Long id) {
         Directory directory = directoryService.findById(id);
-        return ResponseEntity.ok().body(new DirectoryResponseDto(directory));
+        return ApiResponseCustom.create(new DirectoryResponseDto(directory), ResponseCode.DIRECTORY_READ_BY_ID_SUCCESS);
     }
 
-    @Operation(summary = "디렉토리 삭제", description = "디렉토리를 id로 삭제한다")
+    @Operation(summary = "디렉토리 삭제", description = "디렉토리를 id로 삭제하는 Controller")
     @DeleteMapping("/api/directory/{id}")
-    public ResponseEntity<?> deleteDirectory(@PathVariable Long id){
+    public ApiResponseCustom<?> deleteDirectory(@Parameter(required = true, description = "게시글 고유 번호") @PathVariable Long id){
         directoryService.delete(id);
-        return ResponseEntity.ok().build();
+        return ApiResponseCustom.success(ResponseCode.DIRECTORY_DELETE_SUCCESS);
 
     }
-    @Operation(summary = "디렉토리 수정", description = "디렉토리를 id로 수정한다")
+    @Operation(summary = "디렉토리 수정", description = "디렉토리를 id로 수정하는 Controller")
     @PutMapping("/api/directory/{id}")
-    public ResponseEntity<?> updateDirectory(@PathVariable Long id, @RequestBody UpdateDirectoryRequestDto dto) {
+    public ApiResponseCustom<?> updateDirectory(@PathVariable Long id, @RequestBody UpdateDirectoryRequestDto dto) {
 
         Directory updatedDirectory = directoryService.update(id, dto);
-        return ResponseEntity.ok().body(new DirectoryResponseDto(updatedDirectory));
+        return ApiResponseCustom.success(new DirectoryResponseDto(updatedDirectory), ResponseCode.DIRECTORY_UPDATE_SUCCESS);
     }
 }

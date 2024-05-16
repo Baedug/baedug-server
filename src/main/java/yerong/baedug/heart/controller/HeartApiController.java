@@ -2,7 +2,7 @@ package yerong.baedug.heart.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import yerong.baedug.common.response.ApiResponse;
+import yerong.baedug.common.response.ApiResponseCustom;
 import yerong.baedug.common.response.ResponseCode;
 import yerong.baedug.note.dto.response.NoteResponseDto;
 import yerong.baedug.heart.service.HeartService;
@@ -17,17 +17,17 @@ public class HeartApiController {
     private final HeartService heartService;
 
     @PostMapping("/api/note/{noteId}/heart")
-    public ApiResponse<?> heart(
+    public ApiResponseCustom<?> heart(
             @PathVariable Long noteId,
             Principal principal
     ){
         String socialId = principal.getName();
         heartService.heart(noteId, socialId);
-        return ApiResponse.create(null, ResponseCode.HEART_CREATE_SUCCESS);
+        return ApiResponseCustom.create(null, ResponseCode.HEART_CREATE_SUCCESS);
     }
 
     @DeleteMapping("/api/note/{noteId}/heart")
-    public ApiResponse<?> unHeart(
+    public ApiResponseCustom<?> unHeart(
             @PathVariable Long noteId,
             Principal principal
     )
@@ -35,16 +35,16 @@ public class HeartApiController {
         String socialId = principal.getName();
 
         heartService.unHeart(noteId, socialId);
-        return ApiResponse.success(null, ResponseCode.HEART_DELETE_SUCCESS);
+        return ApiResponseCustom.success(null, ResponseCode.HEART_DELETE_SUCCESS);
     }
 
     @GetMapping("/api/heart")
-    public ApiResponse<?> findAllHeart(Principal principal){
+    public ApiResponseCustom<?> findAllHeart(Principal principal){
         List<NoteResponseDto> noteResponseDtos = heartService.findAllHeart(principal.getName())
                 .stream()
                 .map(NoteResponseDto::new)
                 .toList();
 
-        return ApiResponse.success(noteResponseDtos, ResponseCode.HEART_READ_SUCCESS);
+        return ApiResponseCustom.success(noteResponseDtos, ResponseCode.HEART_READ_SUCCESS);
     }
 }

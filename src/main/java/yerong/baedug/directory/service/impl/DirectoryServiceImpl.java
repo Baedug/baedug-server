@@ -49,14 +49,14 @@ public class DirectoryServiceImpl implements DirectoryService {
     @Transactional
     public Directory findById(Long id){
         return directoryRepository.findById(id)
-                .orElseThrow(() -> new DirectoryException(ResponseCode.DIRECTORY_READ_SUCCESS));
+                .orElseThrow(() -> new DirectoryException(ResponseCode.DIRECTORY_NOT_FOUND));
     }
 
     @Override
     @Transactional
     public void delete(Long id){
         Directory directory = directoryRepository.findById(id)
-                .orElseThrow(() -> new DirectoryException(ResponseCode.DIRECTORY_READ_SUCCESS));
+                .orElseThrow(() -> new DirectoryException(ResponseCode.DIRECTORY_NOT_FOUND));
         authorizeDirectoryMember(directory);
         directory.removeMember();
         directoryRepository.delete(directory);
@@ -66,7 +66,7 @@ public class DirectoryServiceImpl implements DirectoryService {
     @Transactional
     public Directory update(Long id, UpdateDirectoryRequestDto requestDto){
         Directory directory = directoryRepository.findById(id)
-                .orElseThrow(() -> new DirectoryException(ResponseCode.DIRECTORY_READ_SUCCESS));
+                .orElseThrow(() -> new DirectoryException(ResponseCode.DIRECTORY_NOT_FOUND));
         authorizeDirectoryMember(directory);
         directory.update(requestDto.getName());
         return directory;

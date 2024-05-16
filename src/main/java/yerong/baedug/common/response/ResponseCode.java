@@ -41,7 +41,8 @@ public enum ResponseCode {
     DIRECTORY_NOT_FOUND(HttpStatus.NOT_FOUND, "디렉토리를 찾을 수 없습니다,"),
 
     //200 OK
-    DIRECTORY_READ_SUCCESS(HttpStatus.OK, "디렉토리 조회 성공"),
+    DIRECTORY_READ_ALL_SUCCESS(HttpStatus.OK, "디렉토리 전체 조회 성공"),
+    DIRECTORY_READ_BY_ID_SUCCESS(HttpStatus.OK, "디렉토리 조회 성공"),
     DIRECTORY_UPDATE_SUCCESS(HttpStatus.OK, "디렉토리 수정 성공"),
     DIRECTORY_DELETE_SUCCESS(HttpStatus.OK, "디렉토리 삭제 성공"),
 
