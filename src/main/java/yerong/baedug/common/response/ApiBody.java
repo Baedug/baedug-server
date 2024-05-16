@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class ApiBody <T>{
 
     private T data;
