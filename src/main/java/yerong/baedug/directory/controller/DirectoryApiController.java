@@ -3,6 +3,7 @@ package yerong.baedug.directory.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,7 +32,8 @@ public class DirectoryApiController {
     @Operation(summary = "디렉토리 생성", description = "디렉토리를 생성하는 Controller")
     @PostMapping("/api/directory")
     @ApiResponses(value =  {
-            @ApiResponse(responseCode = "201", description = "디렉토리 생성 성공", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "201", description = "디렉토리 생성 성공",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = DirectoryResponseDto.class)) )
     })
     public ApiResponseCustom<DirectoryResponseDto> addDirectory(Principal principal, @RequestBody DirectorySaveRequestDto requestDto){
         String socialId = principal.getName();
