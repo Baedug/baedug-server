@@ -18,6 +18,8 @@ import yerong.baedug.oauth.dto.TokenDto;
 import yerong.baedug.oauth.repository.RefreshTokenRepository;
 import yerong.baedug.member.repository.MemberRepository;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -41,11 +43,9 @@ public class AuthService {
             memberRepository.save(member);
         }
 
-        log.info("[login] 계정을 찾았습니다. " + member);
-
         TokenDto tokenDto = jwtProvider.generateTokenDto(memberRequestDto.getSocialId());
-        log.info("success token");
-        log.info("===" + tokenDto.toString());
+
+        deleteExistingRefreshToken(member.getId());
 
         RefreshToken refreshToken =
                 RefreshToken.builder()
@@ -71,11 +71,19 @@ public class AuthService {
         TokenDto tokenDto = jwtProvider.generateTokenDto(member.getSocialId());
 
         // 기존 RefreshToken 업데이트
+        deleteExistingRefreshToken(member.getId());
         refreshToken.update(tokenDto.getRefreshToken());
         refreshTokenRepository.save(refreshToken);
 
         return tokenDto;
     }
+
+    private void deleteExistingRefreshToken(Long memberId) {
+        // 해당 회원의 기존 refresh token 삭제
+        Optional<RefreshToken> existingToken = refreshTokenRepository.findByMemberId(memberId);
+        existingToken.ifPresent(refreshTokenRepository::delete);
+    }
+
     public HttpHeaders setTokenHeaders(TokenDto tokenDto) {
         HttpHeaders headers = new HttpHeaders();
         ResponseCookie cookie = ResponseCookie.from("RefreshToken", tokenDto.getRefreshToken())

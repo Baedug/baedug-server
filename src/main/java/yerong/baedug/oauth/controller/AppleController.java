@@ -20,7 +20,6 @@ import yerong.baedug.oauth.service.apple.AppleService;
 public class AppleController {
 
     private final AppleService appleService;
-    private final MemberService memberService;
     private final AuthService authService;
 
     @PostMapping("/login/oauth2/code/apple")
