@@ -49,6 +49,7 @@ public class DirectoryApiController {
     @GetMapping("/api/directory")
     public ApiResponseCustom<?> findAllDirectory(Principal principal){
         String socialId = principal.getName();
+        log.info("socialId == " + socialId);
         List<DirectoryResponseDto> directories = directoryService.findAll(socialId)
                 .stream()
                 .map(DirectoryResponseDto::new)
