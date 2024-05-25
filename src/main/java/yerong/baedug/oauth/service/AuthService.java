@@ -70,7 +70,6 @@ public class AuthService {
 
         RefreshToken newRefreshToken = new RefreshToken(member.getId(), tokenDto.getRefreshToken());
         // 기존 RefreshToken 업데이트
-        refreshToken.update(tokenDto.getRefreshToken());
         refreshTokenRepository.deleteByMemberId(member.getId());
         refreshTokenRepository.save(newRefreshToken);
 
