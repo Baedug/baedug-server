@@ -89,7 +89,7 @@ public class AuthService {
                 .httpOnly(true)
                 .build();
         headers.add("Set-cookie", cookie.toString());
-        headers.add("Authorization Bearer ", tokenDto.getAccessToken());
+        headers.add("Authorization", tokenDto.getAccessToken());
 
         return headers;
     }
