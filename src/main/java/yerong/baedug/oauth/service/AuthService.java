@@ -45,13 +45,17 @@ public class AuthService {
 
         TokenDto tokenDto = jwtProvider.generateTokenDto(memberRequestDto.getSocialId());
 
-        RefreshToken refreshToken =
-                RefreshToken.builder()
-                .memberId(member.getId())
-                .refreshToken(tokenDto.getRefreshToken())
-                .build();
-
-        refreshTokenRepository.save(refreshToken);
+        Optional<RefreshToken> existingRefreshToken = refreshTokenRepository.findByMemberId(member.getId());
+        if (existingRefreshToken.isPresent()) {
+            existingRefreshToken.get().update(tokenDto.getRefreshToken());
+            refreshTokenRepository.save(existingRefreshToken.get());
+        } else {
+            RefreshToken refreshToken = RefreshToken.builder()
+                    .memberId(member.getId())
+                    .refreshToken(tokenDto.getRefreshToken())
+                    .build();
+            refreshTokenRepository.save(refreshToken);
+        }
         return tokenDto;
     }
     @Transactional
@@ -68,10 +72,8 @@ public class AuthService {
         // 새로운 AccessToken 발급
         TokenDto tokenDto = jwtProvider.generateTokenDto(member.getSocialId());
 
-        RefreshToken newRefreshToken = new RefreshToken(member.getId(), tokenDto.getRefreshToken());
-        // 기존 RefreshToken 업데이트
-        refreshTokenRepository.deleteByMemberId(member.getId());
-        refreshTokenRepository.save(newRefreshToken);
+        refreshToken.update(tokenDto.getRefreshToken());
+        refreshTokenRepository.save(refreshToken);
 
         return tokenDto;
     }
