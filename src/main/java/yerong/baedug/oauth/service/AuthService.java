@@ -45,8 +45,6 @@ public class AuthService {
 
         TokenDto tokenDto = jwtProvider.generateTokenDto(memberRequestDto.getSocialId());
 
-        deleteExistingRefreshToken(member.getId());
-
         RefreshToken refreshToken =
                 RefreshToken.builder()
                 .memberId(member.getId())
@@ -70,19 +68,15 @@ public class AuthService {
         // 새로운 AccessToken 발급
         TokenDto tokenDto = jwtProvider.generateTokenDto(member.getSocialId());
 
+        RefreshToken newRefreshToken = new RefreshToken(member.getId(), tokenDto.getRefreshToken());
         // 기존 RefreshToken 업데이트
-        deleteExistingRefreshToken(member.getId());
         refreshToken.update(tokenDto.getRefreshToken());
-        //refreshTokenRepository.save(refreshToken);
+        refreshTokenRepository.deleteByMemberId(member.getId());
+        refreshTokenRepository.save(newRefreshToken);
 
         return tokenDto;
     }
 
-    private void deleteExistingRefreshToken(Long memberId) {
-        // 해당 회원의 기존 refresh token 삭제
-        Optional<RefreshToken> existingToken = refreshTokenRepository.findByMemberId(memberId);
-        existingToken.ifPresent(refreshTokenRepository::delete);
-    }
 
     public HttpHeaders setTokenHeaders(TokenDto tokenDto) {
         HttpHeaders headers = new HttpHeaders();
