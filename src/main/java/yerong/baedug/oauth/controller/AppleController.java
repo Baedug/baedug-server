@@ -52,7 +52,6 @@ public class AppleController {
             TokenDto tokenDto = authService.refreshAccessToken(refreshToken);
             HttpHeaders headers = authService.setTokenHeaders(tokenDto);
 
-            // AccessToken 및 RefreshToken을 헤더에 포함하여 응답
             return ResponseEntity.ok().headers(headers).body(new CustomEntity("Success", "accessToken: " + tokenDto.getAccessToken()));
         } catch (Exception e) {
             log.error("RefreshToken 오류: {}", e.getMessage());
